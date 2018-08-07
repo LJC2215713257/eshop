@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.edu.jxufe.dao.AdminDAO">
+  <resultMap id="BaseResultMap" type="cn.edu.jxufe.entity.Admin">
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
+    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
+    <result column="admin_login_num" jdbcType="INTEGER" property="adminLoginNum" />
+    <result column="admin_is_super" jdbcType="INTEGER" property="adminIsSuper" />
+    <result column="is_disable" jdbcType="INTEGER" property="isDisable" />
+    <result column="admin_login_time" jdbcType="TIMESTAMP" property="adminLoginTime" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+  <insert id="insert" parameterType="cn.edu.jxufe.entity.Admin">
+    insert into admin (admin_id, admin_name, admin_password, 
+      admin_login_num, admin_is_super, is_disable, 
+      admin_login_time, created_time, updated_time
+      )
+    values (#{adminId,jdbcType=INTEGER}, #{adminName,jdbcType=VARCHAR}, #{adminPassword,jdbcType=VARCHAR}, 
+      #{adminLoginNum,jdbcType=INTEGER}, #{adminIsSuper,jdbcType=INTEGER}, #{isDisable,jdbcType=INTEGER}, 
+      #{adminLoginTime,jdbcType=TIMESTAMP}, #{createdTime,jdbcType=TIMESTAMP}, #{updatedTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.jxufe.entity.Admin">
+    insert into admin
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="adminName != null">
+        admin_name,
+      </if>
+      <if test="adminPassword != null">
+        admin_password,
+      </if>
+      <if test="adminLoginNum != null">
+        admin_login_num,
+      </if>
+      <if test="adminIsSuper != null">
+        admin_is_super,
+      </if>
+      <if test="isDisable != null">
+        is_disable,
+      </if>
+      <if test="adminLoginTime != null">
+        admin_login_time,
+      </if>
+      <if test="createdTime != null">
+        created_time,
+      </if>
+      <if test="updatedTime != null">
+        updated_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        #{adminPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="adminLoginNum != null">
+        #{adminLoginNum,jdbcType=INTEGER},
+      </if>
+      <if test="adminIsSuper != null">
+        #{adminIsSuper,jdbcType=INTEGER},
+      </if>
+      <if test="isDisable != null">
+        #{isDisable,jdbcType=INTEGER},
+      </if>
+      <if test="adminLoginTime != null">
+        #{adminLoginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdTime != null">
+        #{createdTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedTime != null">
+        #{updatedTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>
