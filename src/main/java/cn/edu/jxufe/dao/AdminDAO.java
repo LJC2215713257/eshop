@@ -3,8 +3,6 @@ package cn.edu.jxufe.dao;
 import cn.edu.jxufe.entity.Admin;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * AdminDAO继承基类
  */
@@ -14,5 +12,4 @@ import java.util.List;
  */
 @Repository
 public interface AdminDAO extends MyBatisBaseDao<Admin, Admin> {
-    List<Admin> selectAll();
 }
