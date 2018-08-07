@@ -12,6 +12,9 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
   </resultMap>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select * from admin
+  </select>
   <insert id="insert" parameterType="cn.edu.jxufe.entity.Admin">
     insert into admin (admin_id, admin_name, admin_password, 
       admin_login_num, admin_is_super, is_disable, 
