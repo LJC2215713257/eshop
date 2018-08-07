@@ -1,6 +1,7 @@
 package cn.edu.jxufe.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * DAO公共基类，由MybatisGenerator自动生成请勿修改
@@ -9,6 +10,6 @@ import java.io.Serializable;
  */
 public interface MyBatisBaseDao<Model, PK extends Serializable> {
     int insert(Model record);
-
+    List<Model> findByParams(Object... item);
     int insertSelective(Model record);
 }
