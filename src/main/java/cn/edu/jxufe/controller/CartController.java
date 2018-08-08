@@ -1,5 +1,6 @@
 package cn.edu.jxufe.controller;
 
+import cn.edu.jxufe.bean.Message;
 import cn.edu.jxufe.entity.Memberinfo;
 import cn.edu.jxufe.entity.Orderinfo;
 import cn.edu.jxufe.entity.OrderinfoGoods;
@@ -15,13 +16,17 @@ import java.util.ArrayList;
 public class CartController {
     @RequestMapping(value = "list")
     @ResponseBody
-    public Object getCartList(HttpSession session){
+    public Message getCartList(HttpSession session){
+        Message message = new Message();
         Orderinfo cart = (Orderinfo) session.getAttribute("cart");
         Memberinfo user = (Memberinfo) session.getAttribute("user");
         if(user!=null) {
             cart.setOrderGoodsList(new ArrayList<OrderinfoGoods>());
-            return cart;
+            message.setTitle("1");
+            message.setEntity(cart);
+            return message;
         }
-        return "{\"msg\":\"error\"}";
+        message.setTitle("0");
+        return message;
     }
 }
