@@ -64,10 +64,10 @@
 <div class="slide">
   <div class="swiper-wrapper">
       <%--循环顶部图片--%>
-      <c:forEach items="${list}" var="b">
+      <c:forEach items="${advs}" var="adv">
     <div class="swiper-slide">
-      <a href="#">
-        <img src="upload/${b.brandPic}"/>
+      <a href="${adv.advLinkUrl}">
+        <img src="upload/${adv.advPicUrl}"/>
       </a>
     </div>
       </c:forEach>
@@ -79,6 +79,32 @@
 <dl class="tab_proList">
   <dd>
     <ul>
+      <c:forEach items="${goodslist}" var="goods">
+        <li>
+          <div class="productArea">
+            <a href="${goods.goodsImage}" class="goodsPic">
+              <img src="../../upload/${goods.goodsImage}"/>
+            </a>
+            <div class="goodsInfor">
+              <h2>
+                <a href="goods/info${goods.goodsId}">${goods.goodsName} </a>
+              </h2>
+              <p>
+                <del>${goods.goodsPrice}</del>
+              </p>
+              <p>
+                <strong class="price">${goods.goodsSellPrice}</strong>
+              </p>
+              <a class="addToCart">&#126;</a>
+            </div>
+          </div>
+          <aside>
+            <a class="like_icon">${goods.thumbsUpNum}</a>
+            <a class="comment_icon">${goods.commentNum}</a>
+            <a class="deal_icon">${goods.salenumNum}</a>
+          </aside>
+        </li>
+      </c:forEach>
       <li>
         <div class="productArea">
           <a href="product.jsp" class="goodsPic">

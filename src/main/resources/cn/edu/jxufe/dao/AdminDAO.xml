@@ -12,11 +12,23 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
   </resultMap>
-  <select id="selectAll" resultMap="BaseResultMap">
+  <select id="findByParams" parameterType="cn.edu.jxufe.entity.Admin" resultMap="BaseResultMap">
     select * from admin
     <where>
-      <
+      <if test="admin_id!=0">
+        AND admin_id=#{adminId}
+      </if>
+      <if test="admin_name!=null and admin_name!=''">
+        AND admin_name=#{admin_name}
+      </if>
+      <if test="admin_login_time!=null">
+        AND admin_login_time=#{admin_login_time}
+      </if>
     </where>
+  </select>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    select * from admin
   </select>
   <insert id="insert" parameterType="cn.edu.jxufe.entity.Admin">
     insert into admin (admin_id, admin_name, admin_password, 

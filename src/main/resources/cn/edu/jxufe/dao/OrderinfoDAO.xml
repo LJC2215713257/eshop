@@ -16,8 +16,50 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
   </resultMap>
+
+  <resultMap id="OrderDetail" type="cn.edu.jxufe.entity.Orderinfo">
+    <result column="order_id" jdbcType="INTEGER" property="orderId" />
+    <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
+    <result column="buyer_id" jdbcType="INTEGER" property="buyerId" />
+    <result column="buyer_name" jdbcType="VARCHAR" property="buyerName" />
+    <result column="buyer_tel" jdbcType="VARCHAR" property="buyerTel" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="payment_code" jdbcType="CHAR" property="paymentCode" />
+    <result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
+    <result column="finnshed_time" jdbcType="TIMESTAMP" property="finnshedTime" />
+    <result column="order_amount" jdbcType="BIGINT" property="orderAmount" />
+    <result column="order_state" jdbcType="INTEGER" property="orderState" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <collection property="orderGoodsList" column="order_id" select="findOrderGoodsByOrderId"></collection>
+  </resultMap>
+
+  <resultMap id="BaseOrderMap" type="cn.edu.jxufe.entity.OrderinfoGoods">
+    <result column="rec_id" jdbcType="INTEGER" property="recId" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="goods_id" jdbcType="INTEGER" property="goodsId" />
+    <result column="goods_name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="goods_price" jdbcType="DECIMAL" property="goodsPrice" />
+    <result column="goods_num" jdbcType="INTEGER" property="goodsNum" />
+    <result column="goods_pay_price" jdbcType="BIGINT" property="goodsPayPrice" />
+    <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+  </resultMap>
+
+  <select id="findOrderGoodsByOrderId" parameterType="java.lang.Integer" resultMap="BaseOrderMap">
+    SELECT * FROM orderinfo_goods WHERE order_id=#{order_id}
+  </select>
+
+  <select id="findAll" resultMap="OrderDetail">
+    SELECT * FROM orderinfo
+  </select>
+
+  <select id="findByBuyerId" parameterType="java.lang.Integer" resultMap="OrderDetail">
+    SELECT * FROM orderinfo WHERE buyer_id=#{buyer_id}
+  </select>
+
   <insert id="insert" parameterType="cn.edu.jxufe.entity.Orderinfo">
-    insert into orderinfo (order_id, order_sn, buyer_id, 
+    insert into orderinfo (order_id, order_sn, buyer_id,
       buyer_name, buyer_tel, add_time, 
       payment_code, payment_time, finnshed_time, 
       order_amount, order_state, created_time, 
@@ -28,6 +70,10 @@
       #{orderAmount,jdbcType=BIGINT}, #{orderState,jdbcType=INTEGER}, #{createdTime,jdbcType=TIMESTAMP}, 
       #{updatedTime,jdbcType=TIMESTAMP})
   </insert>
+
+  <delete id="delete" parameterType="cn.edu.jxufe.entity.Orderinfo">
+    DELETE FROM orderinfo WHERE order_id=#{orderId}
+  </delete>
   <insert id="insertSelective" parameterType="cn.edu.jxufe.entity.Orderinfo">
     insert into orderinfo
     <trim prefix="(" suffix=")" suffixOverrides=",">

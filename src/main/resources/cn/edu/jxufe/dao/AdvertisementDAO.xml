@@ -11,6 +11,15 @@
     <result column="adv_cratetime" jdbcType="TIMESTAMP" property="advCratetime" />
     <result column="adv_updatetime" jdbcType="TIMESTAMP" property="advUpdatetime" />
   </resultMap>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    SELECT *  FROM advertisement
+  </select>
+
+  <select id="findOnLineAdv" resultMap="BaseResultMap">
+    select * from advertisement where adv_offline=1
+  </select>
+
   <sql id="Base_Column_List">
     adv_id, adv_title, adv_pic_url, adv_offline, adv_order, adv_link_url, adv_cratetime, 
     adv_updatetime

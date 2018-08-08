@@ -1,6 +1,7 @@
 package cn.edu.jxufe.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -155,7 +156,7 @@ public class Goodsinfo implements Serializable {
         this.gcName = gcName;
     }
 
-    public Double getGoodsPrice() {
+    public BigDecimal getGoodsPrice() {
         return goodsPrice;
     }
 
@@ -163,7 +164,7 @@ public class Goodsinfo implements Serializable {
         this.goodsPrice = goodsPrice;
     }
 
-    public Double getGoodsSellPrice() {
+    public Long getGoodsSellPrice() {
         return goodsSellPrice;
     }
 

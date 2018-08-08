@@ -14,6 +14,7 @@ public interface MyBatisBaseDao<Model, PK extends Serializable> {
     List<Model> findAll();
     List<Model> findByParams(Model model);
     int update(Model record);
+    Model selectByPrimaryKey(int pk);
     int delete(Model record);
     int insertSelective(Model record);
 }

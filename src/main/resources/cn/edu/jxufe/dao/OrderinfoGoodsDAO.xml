@@ -12,6 +12,11 @@
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
   </resultMap>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select * from orderinfo_goods rec_id=#{recId}
+  </select>
+
   <insert id="insert" parameterType="cn.edu.jxufe.entity.OrderinfoGoods">
     insert into orderinfo_goods (rec_id, order_id, goods_id, 
       goods_name, goods_price, goods_num, 

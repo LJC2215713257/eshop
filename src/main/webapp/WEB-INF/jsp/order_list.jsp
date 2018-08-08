@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
  String path = request.getContextPath();
  String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -41,6 +42,50 @@
 <!--订单列表-->
 <ul class="orderList">
  <!--订单循环li-->
+ <c:forEach items="${orders}" var="order">
+  <li>
+   <dl>
+    <dt>
+     <span>订单：${order.orderSn}</span>
+     <span><c:choose>
+      <c:when test="${order.orderState}==0">
+       已取消
+      </c:when>
+      <c:when test="${order.orderState}==20">
+       已付款
+      </c:when>
+      <c:when test="${order.orderState}==30">
+       已发货
+      </c:when>
+      <c:when test="${order.orderState}==40">
+       已收货
+      </c:when>
+      <c:otherwise>未付款</c:otherwise>
+
+     </c:choose></span>
+    </dt>
+    <!--订单产品循环dd-->
+    <c:forEach items="${order.orderGoodsList}" var="detail">
+    <dd>
+     <h2>${detail.goodsName}</h2>
+     <strong>
+      <em>${detail.goodsPrice}</em>
+      <span>${detail.goodsNum}</span>
+     </strong>
+    </dd>
+    </c:forEach>
+    <dd>
+     <span>商品数量：<b>${fn:length(order.orderGoodsList)}</b></span>
+     <span>实付：<b>${order.orderAmount}</b></span>
+    </dd>
+    <dd>
+
+     <a class="order_delBtn">删除订单</a>
+     <a class="order_payBtn">付款</a>
+    </dd>
+   </dl>
+  </li>
+ </c:forEach>
  <li>
   <dl>
    <dt>

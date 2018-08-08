@@ -2,6 +2,7 @@ package cn.edu.jxufe.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * orderinfo
@@ -66,6 +67,20 @@ public class Orderinfo implements Serializable {
     private Date createdTime;
 
     private Date updatedTime;
+
+    private List<OrderinfoGoods> orderGoodsList;
+
+    public List<OrderinfoGoods> getOrderGoodsList() {
+        return orderGoodsList;
+    }
+
+    public void setOrderGoodsList(List<OrderinfoGoods> orderGoodsList) {
+        this.orderGoodsList = orderGoodsList;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
     private static final long serialVersionUID = 1L;
 
