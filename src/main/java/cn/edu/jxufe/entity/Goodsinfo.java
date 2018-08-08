@@ -156,7 +156,7 @@ public class Goodsinfo implements Serializable {
         this.gcName = gcName;
     }
 
-    public BigDecimal getGoodsPrice() {
+    public Double getGoodsPrice() {
         return goodsPrice;
     }
 
@@ -164,7 +164,7 @@ public class Goodsinfo implements Serializable {
         this.goodsPrice = goodsPrice;
     }
 
-    public Long getGoodsSellPrice() {
+    public Double getGoodsSellPrice() {
         return goodsSellPrice;
     }
 

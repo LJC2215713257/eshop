@@ -32,7 +32,19 @@ $(document).ready(function(){
   $(".add_btn").click(function(){
 	  $(".cart_icon em").html(parseInt($(".cart_icon em").html())+1);
 	  });
+  
+
 });
+function shopCart() {
+    $.ajax({
+        url: "cart/list",
+        method:"post",
+        dataType:"json",
+        success: function(data){
+            alert(data);
+        }
+    });
+}
 </script>
 </head>
 <body>
@@ -81,8 +93,11 @@ $(document).ready(function(){
 <!--bottom nav-->
 <div style="height:1rem;"></div>
 <aside class="btmNav">
- <ul>
-  <li><a class="cart_icon"><em>0</em></a></li>
+ <div class="cart_list">
+
+ </div>
+ <ul >
+  <li onclick="shopCart()"><a class="cart_icon" ><em>0</em></a></li>
   <li><a>合计：￥0.00</a></li>
   <li><a href="order/list">立即下单</a></li>
  </ul>

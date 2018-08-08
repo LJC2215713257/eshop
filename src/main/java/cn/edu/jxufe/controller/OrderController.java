@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
-import java.text.SimpleDateFormat;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -61,8 +61,8 @@ public class OrderController {
             if(goodsinfo!=null) {
                 if (orderGoods==null) {
                     orderGoods.setGoodsId(goodsId);
-                    orderGoods.setGoodsPrice(goodsinfo.getGoodsPrice());
-                    orderGoods.setGoodsPayPrice(goodsinfo.getGoodsSellPrice());
+                    orderGoods.setGoodsPrice(new BigDecimal(goodsinfo.getGoodsPrice()));
+                    orderGoods.setGoodsPayPrice(goodsinfo.getGoodsSellPrice().longValue());
                     orderGoods.setGoodsName(goodsinfo.getGoodsName());
                     orderGoods.setCreatedTime(new Date());
                     orderGoods.setGoodsNum(1);
@@ -89,7 +89,13 @@ public class OrderController {
     @RequestMapping(value = "savaCart")
     public String saveCart(HttpSession session,ModelMap map){
         Memberinfo menber = (Memberinfo) session.getAttribute("user");
-        
+        if(menber!=null){
+            Orderinfo orderinfo = (Orderinfo) session.getAttribute("cart");
+            if(orderinfo!=null){
+                return orderInfoService.insertSelective(orderinfo)+"";
+            }
+        }
+        return "0";
     }
 
 }
