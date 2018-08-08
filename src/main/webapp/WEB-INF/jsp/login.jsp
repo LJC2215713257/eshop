@@ -25,37 +25,40 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
-<script>
+ <!--
+ <script>
 $(document).ready(function(){
    $(".formarea li:last input[type='button']").click(function(){
 	   alert("测试跳转效果，程序对接予以删除!");
 	   location.href="index.jsp";
 	   });	
 });
-</script>
+</script>  -->
 </head>
 <body>
 <header>
  <a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
  <h1>登录</h1>
 </header>
+<form action="login" method="post">
 <ul class="formarea">
  <li>
   <label class="lit">账号：</label>
-  <input type="text" placeholder="手机号码" class="textbox"/>
+  <input type="text" name="tel" placeholder="手机号码" class="textbox"/>
  </li>
  <li>
   <label class="lit">密码：</label>
-  <input type="password" placeholder="登陆密码" class="textbox"/>
+  <input type="password" name="pwd" placeholder="登陆密码" class="textbox"/>
  </li>
  <li class="liLink">
   <a href="register.jsp" class="fl">新用户注册</a>
   <a href="find_pwd.jsp" class="fr">忘记密码?</a>
  </li>
  <li>
-  <input type="button" value="立即登录"/>
+   <input type="submit" value="立即登录" class="more_btn" style="background-color: #f7cb8e;width: auto;height: 50px;border: none ;font-size: 20px;color: #ffffff"/>
  </li>
 </ul>
+</form>
 <!--fixedNav:footer-->
 <div style="height:1.2rem;"></div>
 <nav>
