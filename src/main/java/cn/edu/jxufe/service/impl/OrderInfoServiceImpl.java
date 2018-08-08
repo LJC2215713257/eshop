@@ -1,7 +1,9 @@
 package cn.edu.jxufe.service.impl;
 
 import cn.edu.jxufe.dao.OrderinfoDAO;
+import cn.edu.jxufe.dao.OrderinfoGoodsDAO;
 import cn.edu.jxufe.entity.Orderinfo;
+import cn.edu.jxufe.entity.OrderinfoGoods;
 import cn.edu.jxufe.service.OrderInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ import java.util.List;
 public class OrderInfoServiceImpl implements OrderInfoService {
     @Autowired
     private OrderinfoDAO dao;
+    @Autowired
+    private OrderinfoGoodsDAO odao;
 
 
     @Override
@@ -32,5 +36,19 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         order.setOrderId(orderId);
         order.setOrderState(20);
         return dao.update(order);
+    }
+
+    @Override
+    public int insertSelective(Orderinfo orderinfo) {
+        try {
+            for (OrderinfoGoods og : orderinfo.getOrderGoodsList()) {
+                odao.insertSelective(og);
+            }
+            dao.insertSelective(orderinfo);
+            return 1;
+        }catch (Exception e){
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

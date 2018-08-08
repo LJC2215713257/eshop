@@ -26,13 +26,66 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+
+    <style>
+        .btmNav{
+            -webkit-transition: height 0.5s;
+            -moz-transition: height 0.5s;
+            -ms-transition: height 0.5s;
+            -o-transition: height 0.5s;
+            transition: height 0.5s;
+        }
+
+        .cart_list{
+            display: block;
+        }
+    </style>
 <script>
+
 $(document).ready(function(){
   //效果测试，程序对接可将其删除
   $(".add_btn").click(function(){
 	  $(".cart_icon em").html(parseInt($(".cart_icon em").html())+1);
-	  });
+  });
+  
+
 });
+function shopCart() {
+    $.ajax({
+        url: "cart/list",
+        method:"post",
+        dataType:"json",
+        success: flushCart
+    });
+}
+
+function flushCart(data) {
+    if(data.title=="1"){
+        alert("");
+    }else{
+        var btmNav =  $(".btmNav");
+        console.log(btmNav);
+        $(btmNav).css("height","300");
+        var cart = $(".cart_list");
+        $(cart).css({
+            "display":"block",
+            "width":"100%",
+            "background-color":"#fff",
+            "height":"100"
+        });
+    }
+}
+
+function turnCart() {
+    var btmNav =  $(".btmNav");
+    var cart = $(".cart_list");
+    if($(cart).css("display")=="block"){
+        $(btmNav).css("height","50");
+        $(cart).css("display","none");
+    }else{
+        shopCart();
+    }
+}
 </script>
 </head>
 <body>
@@ -81,8 +134,11 @@ $(document).ready(function(){
 <!--bottom nav-->
 <div style="height:1rem;"></div>
 <aside class="btmNav">
- <ul>
-  <li><a class="cart_icon"><em>0</em></a></li>
+ <div class="cart_list">
+
+ </div>
+ <ul >
+  <li onclick="turnCart()"><a class="cart_icon" ><em>0</em></a></li>
   <li><a>合计：￥0.00</a></li>
   <li><a href="order/list">立即下单</a></li>
  </ul>

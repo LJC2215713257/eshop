@@ -1,9 +1,12 @@
+<%@ page import="org.springframework.web.servlet.support.RequestContext" %>
+<%@ page import="cn.edu.jxufe.entity.Memberinfo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%
  String path = request.getContextPath();
  String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+ Memberinfo mem = (Memberinfo) session.getAttribute("user");
 %>
 <!DOCTYPE html>
 <html>
@@ -39,6 +42,8 @@
  <a>待发货</a>
  <a>已完成</a>
 </aside>
+
+<% if (mem!=null){%>
 <!--订单列表-->
 <ul class="orderList">
  <!--订单循环li-->
@@ -166,5 +171,8 @@
   </dl>
  </li>
 </ul>
+<%}else{%>
+<h1 style="margin-top: 30px;font-size: 24px;color:#BC8F8F; text-align: center;">用户未登录！<a href="user/login">登录</a></h1>
+<%}%>
 </body>
 </html>
