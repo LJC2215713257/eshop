@@ -28,9 +28,20 @@
 <script>
 $(document).ready(function(){
    $(".formarea li:last input[type='button']").click(function(){
-	   alert("测试跳转效果，程序对接予以删除!");
-	   location.href="index.jsp";
-	   });	
+       if($("input[name=tel]").val()==""||$("input[name=psw]").val()==""){
+           $("#tip").html("账号密码不能为空！");
+       }else {
+           $.post("user/login",
+               {tel:$("input[name=tel]").val(), psw: $("input[name=psw]").val()}
+               , function (data) {
+                   if (data.title == "1") {
+                       location.href="/index";
+                   } else if (data.title == "0") {
+                       $("#tip").html("账号密码错误！");
+                   }
+               });
+       }
+   });
 });
 </script>
 </head>
@@ -42,15 +53,18 @@ $(document).ready(function(){
 <ul class="formarea">
  <li>
   <label class="lit">账号：</label>
-  <input type="text" placeholder="手机号码" class="textbox"/>
+  <input name="tel" type="text" placeholder="手机号码" class="textbox"/>
  </li>
  <li>
   <label class="lit">密码：</label>
-  <input type="password" placeholder="登陆密码" class="textbox"/>
+  <input name="psw" type="password" placeholder="登陆密码" class="textbox"/>
  </li>
  <li class="liLink">
-  <a href="register.jsp" class="fl">新用户注册</a>
-  <a href="find_pwd.jsp" class="fr">忘记密码?</a>
+  <a href="register" class="fl">新用户注册</a>
+  <a href="find_pwd" class="fr">忘记密码?</a>
+ </li>
+ <li style="color:#FF6347;font-size: 16px; background-color:transparent;margin-bottom: 30px;">
+  <label id="tip"></label>
  </li>
  <li>
   <input type="button" value="立即登录"/>
@@ -59,10 +73,10 @@ $(document).ready(function(){
 <!--fixedNav:footer-->
 <div style="height:1.2rem;"></div>
 <nav>
- <a href="index.jsp" class="homeIcon">首页</a>
+ <a href="index" class="homeIcon">首页</a>
  <a href="category.jsp" class="categoryIcon">分类</a>
- <a href="cart.jsp" class="cartIcon">购物车</a>
- <a href="user.jsp" class="userIcon">我的</a>
+ <a href="order/list" class="cartIcon">购物车</a>
+ <a href="#" class="userIcon">我的</a>
 </nav>
 </body>
 </html>

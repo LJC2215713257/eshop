@@ -34,10 +34,67 @@
             -ms-transition: height 0.5s;
             -o-transition: height 0.5s;
             transition: height 0.5s;
+            box-shadow: 0 0 5px #BC8F8F;
         }
 
         .cart_list{
+            display: none;
+            height: 170px;
+            overflow: hidden;
+            background-color:#fff;
+        }
+        .cart_list ul{
+            margin: 0px auto;
+            border:0px;
+            padding: 0px auto;
+        }
+
+         .cart_list>ul>li{
+             -webkit-box-flex: unset;
+             box-flex:unset;
+             -moz-box-flex: unset;
+            list-style: none;
+             display:-moz-box; /* Firefox */
+             display:-webkit-box; /* Safari and Chrome */
+            width: 100%;
+            height: 42px;
+             line-height: 42px;
+            border-bottom: 1px solid #aaaaaa;
+         }
+
+        .cart_list>ul>li>span{
             display: block;
+            float:left;
+        }
+
+         .cart_list>ul>li>span:nth-child(1){
+
+             -webkit-box-flex: 1;
+             box-flex:1;
+             -moz-box-flex: 1;
+             font-size: 20px;
+         }
+
+        .cart_list>ul>li>span:nth-child(2):before{
+            content: "￥  ";
+        }
+
+        .cart_list>ul>li>span:nth-child(2){
+            text-align: right;
+            -webkit-box-flex: 1;
+            box-flex:1;
+            -moz-box-flex: 1;
+             font-size: 16px;
+        }
+        .cart_list>ul>li>span:nth-child(3):before{
+            content: "×";
+        }
+        .cart_list>ul>li>span:nth-child(3){
+            text-align: right;
+            -webkit-box-flex: 1;
+            box-flex:1;
+            -moz-box-flex: 1;
+             font-size: 14px;
         }
     </style>
 <script>
@@ -45,7 +102,13 @@
 $(document).ready(function(){
   //效果测试，程序对接可将其删除
   $(".add_btn").click(function(){
-	  $(".cart_icon em").html(parseInt($(".cart_icon em").html())+1);
+      $.ajax({
+          url: "order/addGoods",
+          data:{goodsId:$(this).attr("name")},
+          method:"post",
+          dataType:"json",
+          success: $(".cart_icon em").html(parseInt($(".cart_icon em").html())+1)
+      });
   });
   
 
@@ -60,19 +123,33 @@ function shopCart() {
 }
 
 function flushCart(data) {
+    console.log(data.entity.orderGoodsList);
+    var gds = data.entity.orderGoodsList;
+    var btmNav =  $(".btmNav");
+    var cart = $(".cart_list");
     if(data.title=="1"){
-        alert("");
-    }else{
-        var btmNav =  $(".btmNav");
+        var ulstr = "<ul>";
+        for(var i=0;i<gds.length;i++){
+            ulstr+="<li><span>"+gds[i].goodsName+"</span><span>"
+                +gds[i].goodsPayPrice+"</span><span>"+gds[i].goodsNum+"</span></li>"
+        }
+        ulstr+="</ul>";
+        $(cart).html(ulstr);
         console.log(btmNav);
-        $(btmNav).css("height","300");
-        var cart = $(".cart_list");
+        $(cart).css({
+        "display":"block",
+        "height":"220"
+        })
+        $(btmNav).css("height","270");
+    }else{
         $(cart).css({
             "display":"block",
             "width":"100%",
             "background-color":"#fff",
             "height":"100"
         });
+        $(cart).html("<h1>空空如也</h1>")
+        $(btmNav).css("height","150");
     }
 }
 
@@ -135,11 +212,10 @@ function turnCart() {
 <div style="height:1rem;"></div>
 <aside class="btmNav">
  <div class="cart_list">
-
  </div>
  <ul >
-  <li onclick="turnCart()"><a class="cart_icon" ><em>0</em></a></li>
-  <li><a>合计：￥0.00</a></li>
+  <li onclick="turnCart()"><a class="cart_icon" ><em  name="gNum">0</em></a></li>
+  <li><a name="amout">合计：￥0.00</a></li>
   <li><a href="order/list">立即下单</a></li>
  </ul>
 </aside>

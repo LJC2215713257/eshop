@@ -20,8 +20,16 @@ public class CartController {
         Message message = new Message();
         Orderinfo cart = (Orderinfo) session.getAttribute("cart");
         Memberinfo user = (Memberinfo) session.getAttribute("user");
+        System.out.println("----------"+user);
         if(user!=null) {
-            cart.setOrderGoodsList(new ArrayList<OrderinfoGoods>());
+            if(cart==null){
+                cart = new Orderinfo();
+                cart.setOrderState(10);
+                cart.setBuyerId(user.getMemberId());
+                cart.setBuyerName(user.getMemberName());
+                cart.setBuyerTel(user.getMemberMobile());
+                cart.setOrderGoodsList(new ArrayList<OrderinfoGoods>());
+            }
             message.setTitle("1");
             message.setEntity(cart);
             return message;

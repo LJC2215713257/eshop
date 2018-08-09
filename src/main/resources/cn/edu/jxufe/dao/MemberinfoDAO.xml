@@ -30,6 +30,49 @@
     from memberinfo
     where member_id = #{memberId,jdbcType=INTEGER}
   </select>
+  <select id="findByParams" parameterType="cn.edu.jxufe.entity.Memberinfo" resultMap="BaseResultMap">
+    SELECT * FROM memberinfo
+    <where>
+      <if test="memberId != null">
+        AND member_id = #{memberId,,jdbcType=INTEGER}
+      </if>
+      <if test="memberMobile != null">
+        AND member_mobile = #{memberMobile,jdbcType=VARCHAR}
+      </if>
+      <if test="memberName != null">
+        AND member_name = #{memberName,jdbcType=VARCHAR}
+      </if>
+      <if test="memberBirthday != null">
+        AND member_birthday = #{memberBirthday,jdbcType=BIGINT}
+      </if>
+      <if test="memberPasswd != null">
+        AND member_passwd = #{memberPasswd,jdbcType=VARCHAR}
+      </if>
+      <if test="memberEmail != null">
+        AND member_email = #{memberEmail,jdbcType=VARCHAR}
+      </if>
+      <if test="memberWw != null">
+        AND member_ww = #{memberWw,jdbcType=VARCHAR}
+      </if>
+      <if test="memberLoginNum != null">
+        AND member_login_num = #{memberLoginNum,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null">
+        AND create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="memberLoginTime != null">
+        AND member_login_time = #{memberLoginTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="isSell != null">
+        AND is_sell = #{isSell,jdbcType=BIT}
+      </if>
+      <if test="memberState != null">
+        AND member_state = #{memberState,jdbcType=BIT}
+      </if>
+    </where>
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memberinfo
     where member_id = #{memberId,jdbcType=INTEGER}

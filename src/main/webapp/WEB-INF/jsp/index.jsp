@@ -36,6 +36,13 @@
       });
       //飞入动画，具体根据实际情况调整
       $(".addToCart").click(function(){
+          $.post("order/addGoods",
+              {goodsId:$(this).attr("name")}
+              ,function (data) {
+                console.log(data);
+              }
+          );
+
         $(".hoverCart a").html(parseInt($(".hoverCart a").html())+1);/*测试+1*/
         var shopOffset = $(".hoverCart").offset();
         var cloneDiv = $(this).parent().siblings(".goodsPic").clone();
@@ -95,7 +102,7 @@
               <p>
                 <strong class="price">${goods.goodsSellPrice}</strong>
               </p>
-              <a class="addToCart">&#126;</a>
+              <a class="addToCart" name="${goods.goodsId}">&#126;</a>
             </div>
           </div>
           <aside>

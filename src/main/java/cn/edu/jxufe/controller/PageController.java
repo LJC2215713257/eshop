@@ -21,4 +21,19 @@ public class PageController {
         return "index";
     }
 
+    @RequestMapping(value = "login")
+    public String login(){
+        return "login";
+    }
+
+    @RequestMapping(value = "register")
+    public String register(){
+        return "register";
+    }
+
+    @RequestMapping(value = "find_pwd")
+    public String findPwd(){
+        return "find_pwd";
+    }
+
 }

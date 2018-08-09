@@ -1,5 +1,6 @@
 package cn.edu.jxufe.controller;
 
+import cn.edu.jxufe.bean.Message;
 import cn.edu.jxufe.entity.Goodsinfo;
 import cn.edu.jxufe.entity.Memberinfo;
 import cn.edu.jxufe.entity.Orderinfo;
@@ -37,8 +38,10 @@ public class OrderController {
 
     @RequestMapping(value="addGoods")
     @ResponseBody
-    public String addToCart(HttpSession session,int goodsId){
+    public Message addToCart(HttpSession session,int goodsId){
+        Message message = new Message();
         Memberinfo menber = (Memberinfo) session.getAttribute("user");
+        System.out.println(menber);
         if(menber!=null&&menber.getMemberId()!=null) {
             Orderinfo order = (Orderinfo) session.getAttribute("cart");
             if (order == null) {
@@ -48,6 +51,7 @@ public class OrderController {
                 order.setBuyerName(menber.getMemberName());
                 order.setBuyerTel(menber.getMemberMobile());
                 order.setOrderGoodsList(new ArrayList<OrderinfoGoods>());
+                order.setOrderAmount(0l);
             }
             OrderinfoGoods orderGoods = null;
             for(OrderinfoGoods gd:order.getOrderGoodsList()){
@@ -60,6 +64,7 @@ public class OrderController {
             Goodsinfo goodsinfo = goodsInfoService.findByGoodsId(goodsId);
             if(goodsinfo!=null) {
                 if (orderGoods==null) {
+                    orderGoods = new OrderinfoGoods();
                     orderGoods.setGoodsId(goodsId);
                     orderGoods.setGoodsPrice(new BigDecimal(goodsinfo.getGoodsPrice()));
                     orderGoods.setGoodsPayPrice(goodsinfo.getGoodsSellPrice().longValue());
@@ -78,24 +83,31 @@ public class OrderController {
                 order.setOrderGoodsList(ol);
                 order.setOrderAmount(order.getOrderAmount()+orderGoods.getGoodsPayPrice());
                 session.setAttribute("cart",order);
-                return "1";
+                message.setTitle("1");
+                return message;
             }
-            return "4";
+            message.setTitle("4");
+            return message;
         }else{
-            return "4";
+            message.setTitle("5");
+            return message;
         }
     }
 
     @RequestMapping(value = "savaCart")
-    public String saveCart(HttpSession session,ModelMap map){
+    public Message saveCart(HttpSession session,ModelMap map){
+        Message message = new Message();
         Memberinfo menber = (Memberinfo) session.getAttribute("user");
         if(menber!=null){
             Orderinfo orderinfo = (Orderinfo) session.getAttribute("cart");
             if(orderinfo!=null){
-                return orderInfoService.insertSelective(orderinfo)+"";
+                message.setTitle("1");
+                message.setEntity(orderInfoService.insertSelective(orderinfo));
+                return message;
             }
         }
-        return "0";
+        message.setTitle("0");
+        return message;
     }
 
 }
