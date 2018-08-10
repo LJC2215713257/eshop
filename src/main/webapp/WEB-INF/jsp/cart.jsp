@@ -25,35 +25,77 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+ <style>
+  h1{
+     text-align: center;
+  }
+
+ </style>
 <script>
+ var cart = new Array();
 $(document).ready(function(){
   //show or hide:delBtn
   $(".edit").toggle(function(){
+      $("span[name=showNum]").hide();
 	  $(this).parent().siblings("dd").find(".delBtn").fadeIn();
 	  $(this).html("完成");
 	  $(".numberWidget").show();
 	  $(".priceArea").hide();
 	  },function(){
+      $("span[name=showNum]").show();
+      if(cart.length>0) {
+          $.post("order/update", {cart:JSON.stringify(cart)}, function (data) {
+              console.log(data);
+          });
+      }
 	  $(this).parent().siblings("dd").find(".delBtn").fadeOut();
 	  $(this).html("编辑");
 	  $(".numberWidget").hide();
 	  $(".priceArea").show();
-		  });
+  });
   //minus
   $(".minus").click(function(){
 	  var currNum=$(this).siblings(".number");
+	  $("#amount").html(parseFloat($("#amount").html())+parseFloat($(this).siblings("[type=hidden]").val()));
 	  if(currNum.val()<=1){
 		  $(this).parents("dd").remove();
-		  nullTips();
-		  }else{
-			  currNum.val(parseInt(currNum.val())-1);
-			  }
+          nullTips();
+      }else{
+          currNum.val(parseInt(currNum.val())-1);
+      }
+      var i;
+      for(i=0;i<cart.length;i++){
+          if(cart[i].goodsId==currNum.attr("name")){
+              cart[i].num=parseInt(currNum.val())-1;
+              break;
+          }
+      }
+      if(i==cart.length){
+          var obj = new Object();
+          obj.goodsId = currNum.attr("name");
+          obj.num=parseInt(currNum.val())-1;
+          cart.push(obj);
+      }
 	  });
   //plus
   $(".plus").click(function(){
 	  var currNum=$(this).siblings(".number");
+      $("#amount").html(parseFloat($("#amount").html())-parseFloat($(this).siblings("[type=hidden]").val()));
+      var i;
+	  for(i=0;i<cart.length;i++){
+	      if(cart[i].goodsId==currNum.attr("name")){
+	          cart[i].num=parseInt(currNum.val())+1;
+	          break;
+          }
+      }
+      if(i==cart.length){
+          var obj = new Object();
+          obj.goodsId = currNum.attr("name");
+          obj.num=parseInt(currNum.val())+1;
+          cart.push(obj);
+      }
 	  currNum.val(parseInt(currNum.val())+1);
-	  });
+  });
   //delBtn
   $(".delBtn").click(function(){
 	  $(this).parent().remove();
@@ -65,8 +107,20 @@ $(document).ready(function(){
 		  var tipsCont="<mark style='display:block;background:none;text-align:center;color:grey;'>购物车为空！</mark>"
 		  $(".cart").remove();
 		  $("body").append(tipsCont);
-		  }
-	  }
+      }
+  }
+
+  $("input[name=all]").click(function () {
+      if($(this).attr("checked")) {
+          $("input[name=row]").each(function (index, item) {
+              $(item).attr("checked", true);
+          });
+      }else{
+          $("input[name=row]").each(function (index, item) {
+              $(item).attr("checked", false);
+          });
+      }
+  });
 });
 </script>
 </head>
@@ -77,78 +131,86 @@ $(document).ready(function(){
  <h1>购物车</h1>
 </header>
 <dl class="cart">
- <dt>
-  <label><input type="checkbox"/>全选</label>
-  <a class="edit">编辑</a>
- </dt>
+
+ <% if(session.getAttribute("user")!=null){%>
+    <dt>
+        <label><input type="checkbox" name="all"/>全选</label>
+        <a class="edit">编辑</a>
+    </dt>
+ <c:forEach items="${cart.orderGoodsList}" var="d">
  <dd>
-  <input type="checkbox"/>
-  <a href="product.jsp" class="goodsPic"><img src="../../upload/goods004.jpg"/></a>
+  <input type="checkbox" name="row"/>
+  <a href="product${d.goodsId}" class="goodsPic"><img src="../../upload/${d.imageUrl}"/></a>
   <div class="goodsInfor">
    <h2>
-    <a href="product.jsp">聚财貔貅风水摆件</a>
-    <span>1</span>
+    <a href="product${d.goodsId}">${d.goodsName}</a>
+    <span name="showNum">${d.goodsNum}</span>
    </h2>
    <div class="priceArea">
-    <strong>0.00</strong>
-    <del>0.00</del>
+    <strong>${d.goodsPayPrice}</strong>
+    <del>${d.goodsPrice}</del>
    </div>
    <div class="numberWidget">
     <input type="button" value="-" class="minus"/>
-    <input type="text" value="1" disabled  class="number"/>
+    <input type="hidden" name="price" value="${d.goodsPayPrice}"/>
+    <input type="text" name="${d.goodsId}" value="${d.goodsNum}" disabled  class="number"/>
     <input type="button" value="+"  class="plus"/>
    </div>
   </div>
   <a class="delBtn">删除</a>
  </dd>
- <dd>
-  <input type="checkbox"/>
-  <a href="product.jsp" class="goodsPic"><img src="../../upload/goods002.jpg"/></a>
-  <div class="goodsInfor">
-   <h2>
-    <a href="product.jsp">烟灰缸 玻璃工艺品...</a>
-    <span>1</span>
-   </h2>
-   <div class="priceArea">
-    <strong>0.00</strong>
-    <del>0.00</del>
-   </div>
-   <div class="numberWidget">
-    <input type="button" value="-" class="minus"/>
-    <input type="text" value="1" disabled class="number"/>
-    <input type="button" value="+" class="plus"/>
-   </div>
-  </div>
-  <a class="delBtn">删除</a>
- </dd>
- <dd>
-  <input type="checkbox"/>
-  <a href="product.jsp" class="goodsPic"><img src="../../upload/goods003.jpg"/></a>
-  <div class="goodsInfor">
-   <h2>
-    <a href="product.jsp">迷你花杯 送底座</a>
-    <span>1</span>
-   </h2>
-   <div class="priceArea">
-    <strong>0.00</strong>
-    <del>0.00</del>
-   </div>
-   <div class="numberWidget">
-    <input type="button" value="-" class="minus"/>
-    <input type="text" value="1" disabled  class="number"/>
-    <input type="button" value="+" class="plus"/>
-   </div>
-  </div>
-  <a class="delBtn">删除</a>
- </dd>
+ </c:forEach>
+ <%} else{%>
+ <h1>未登录！请先<a href="login">登录</a></h1>
+ <%}%>
+ <%--<dd>--%>
+  <%--<input type="checkbox" name="row"/>--%>
+  <%--<a href="product.jsp" class="goodsPic"><img src="../../upload/goods002.jpg"/></a>--%>
+  <%--<div class="goodsInfor">--%>
+   <%--<h2>--%>
+    <%--<a href="product.jsp">烟灰缸 玻璃工艺品...</a>--%>
+    <%--<span>1</span>--%>
+   <%--</h2>--%>
+   <%--<div class="priceArea">--%>
+    <%--<strong>0.00</strong>--%>
+    <%--<del>0.00</del>--%>
+   <%--</div>--%>
+   <%--<div class="numberWidget">--%>
+    <%--<input type="button" value="-" class="minus"/>--%>
+    <%--<input type="text" value="1" disabled class="number"/>--%>
+    <%--<input type="button" value="+" class="plus"/>--%>
+   <%--</div>--%>
+  <%--</div>--%>
+  <%--<a class="delBtn">删除</a>--%>
+ <%--</dd>--%>
+ <%--<dd>--%>
+  <%--<input type="checkbox" name="row"/>--%>
+  <%--<a href="product.jsp" class="goodsPic"><img src="../../upload/goods003.jpg"/></a>--%>
+  <%--<div class="goodsInfor">--%>
+   <%--<h2>--%>
+    <%--<a href="product.jsp">迷你花杯 送底座</a>--%>
+    <%--<span>1</span>--%>
+   <%--</h2>--%>
+   <%--<div class="priceArea">--%>
+    <%--<strong>0.00</strong>--%>
+    <%--<del>0.00</del>--%>
+   <%--</div>--%>
+   <%--<div class="numberWidget">--%>
+    <%--<input type="button" value="-" class="minus"/>--%>
+    <%--<input type="text" value="1" disabled  class="number"/>--%>
+    <%--<input type="button" value="+" class="plus"/>--%>
+   <%--</div>--%>
+  <%--</div>--%>
+  <%--<a class="delBtn">删除</a>--%>
+ <%--</dd>--%>
 </dl>
 <!--bottom nav-->
 <div style="height:1rem;"></div>
 <aside class="btmNav">
  <ul>
   <li><a class="cart_icon"><em>0</em></a></li>
-  <li><a>合计：￥0.00</a></li>
-  <li><a href="confirm_order.jsp">立即下单</a></li>
+  <li><a>合计：￥<span id="amount">${cart.orderAmount}</span></a></li>
+  <li><a href="order/savaCart">立即下单</a></li>
  </ul>
 </aside>
 </body>

@@ -44,10 +44,11 @@
     <result column="goods_pay_price" jdbcType="BIGINT" property="goodsPayPrice" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    <result column="goods_image" jdbcType="VARCHAR" property="imageUrl" />
   </resultMap>
 
   <select id="findOrderGoodsByOrderId" parameterType="java.lang.Integer" resultMap="BaseOrderMap">
-    SELECT * FROM orderinfo_goods WHERE order_id=#{order_id}
+    SELECT orderinfo_goods.*,goods_image FROM orderinfo_goods,goodsinfo WHERE order_id=#{order_id} and orderinfo_goods.goods_id=goodsinfo.goods_id
   </select>
 
   <select id="findAll" resultMap="OrderDetail">

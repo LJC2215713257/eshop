@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RequestMapping(value = "/goods")
 @Controller
@@ -23,5 +25,11 @@ public class GoodsController {
         }
         map.put("goods",goods);
         return "product";
+    }
+
+    @RequestMapping(value = "next_page")
+    @ResponseBody
+    public Object getNextPage(@RequestParam(name = "page") int page,@RequestParam(name = "count") int count){
+        return goodsInfoService.findByPage(page,count);
     }
 }

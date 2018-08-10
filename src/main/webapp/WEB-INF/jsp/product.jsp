@@ -43,6 +43,13 @@
             overflow: hidden;
             background-color:#fff;
         }
+
+        .cart_list>h1{
+            font-size: 24px;
+            line-height: 60px;
+            padding-left: 30px;
+            color:#8B7D7B;
+        }
         .cart_list ul{
             margin: 0px auto;
             border:0px;
@@ -80,7 +87,7 @@
         }
 
         .cart_list>ul>li>span:nth-child(2){
-            text-align: right;
+            text-align: center;
             -webkit-box-flex: 1;
             box-flex:1;
             -moz-box-flex: 1;
@@ -107,7 +114,10 @@ $(document).ready(function(){
           data:{goodsId:$(this).attr("name")},
           method:"post",
           dataType:"json",
-          success: $(".cart_icon em").html(parseInt($(".cart_icon em").html())+1)
+          success: function (){
+              $(".cart_icon em").html(parseInt($(".cart_icon em").html())+1);
+              $("a[name=amout]").html("合计：￥"+data.entity.orderAmount);
+          }
       });
   });
   
@@ -123,11 +133,11 @@ function shopCart() {
 }
 
 function flushCart(data) {
-    console.log(data.entity.orderGoodsList);
-    var gds = data.entity.orderGoodsList;
+
     var btmNav =  $(".btmNav");
     var cart = $(".cart_list");
     if(data.title=="1"){
+        var gds = data.entity.orderGoodsList;
         var ulstr = "<ul>";
         for(var i=0;i<gds.length;i++){
             ulstr+="<li><span>"+gds[i].goodsName+"</span><span>"
@@ -140,8 +150,10 @@ function flushCart(data) {
         "display":"block",
         "height":"220"
         })
+        $("a[name=amout]").html("合计：￥"+data.entity.orderAmount);
         $(btmNav).css("height","270");
     }else{
+        console.log(data);
         $(cart).css({
             "display":"block",
             "width":"100%",
@@ -151,6 +163,14 @@ function flushCart(data) {
         $(cart).html("<h1>空空如也</h1>")
         $(btmNav).css("height","150");
     }
+    $(".addToCart").click(function() {
+        $.post("order/addGoods",
+            {goodsId: $(this).attr("name")}
+            , function (data) {
+                console.log(data);
+            }
+        );
+    });
 }
 
 function turnCart() {
@@ -180,7 +200,7 @@ function turnCart() {
  <p>
   <strong>${goods.goodsSellPrice}</strong>
   <del>${goods.goodsPrice}</del>
-  <a class="add_btn">加入购物车</a>
+  <a class="add_btn" name="${goods.goodsId}">加入购物车</a>
  </p>
 </section>
 <!--product infor-->
@@ -194,7 +214,7 @@ function turnCart() {
    <span>设计者</span>
    <span>HZIT</span>
   </li>
-  <li class="more_link" onClick="location.href='comment.html'">
+  <li class="more_link" onClick="location.href='comment'">
    <span>评论</span>
    <span>共计<b>${goods.commentNum}</b>人点评</span>
   </li>
@@ -216,7 +236,7 @@ function turnCart() {
  <ul >
   <li onclick="turnCart()"><a class="cart_icon" ><em  name="gNum">0</em></a></li>
   <li><a name="amout">合计：￥0.00</a></li>
-  <li><a href="order/list">立即下单</a></li>
+  <li><a href="cart">立即下单</a></li>
  </ul>
 </aside>
 </body>

@@ -89,7 +89,7 @@
       <c:forEach items="${goodslist}" var="goods">
         <li>
           <div class="productArea">
-            <a href="${goods.goodsImage}" class="goodsPic">
+            <a href="goods/info${goods.goodsId}" class="goodsPic">
               <img src="../../upload/${goods.goodsImage}"/>
             </a>
             <div class="goodsInfor">
@@ -242,10 +242,10 @@
 <!--fixedNav:footer-->
 <div style="height:1.2rem;"></div>
 <nav>
-  <a href="index.jsp" class="homeIcon">首页</a>
-  <a href="category.jsp" class="categoryIcon">分类</a>
-  <a href="cart.jsp" class="cartIcon">购物车</a>
-  <a href="user.jsp" class="userIcon">我的</a>
+  <a href="index" class="homeIcon">首页</a>
+  <a href="category" class="categoryIcon">分类</a>
+  <a href="cart" class="cartIcon">购物车</a>
+  <a href="user" class="userIcon">我的</a>
 </nav>
 </body>
 </html>

@@ -54,6 +54,16 @@ public class OrderinfoGoods implements Serializable {
      */
     private Date updatedTime;
 
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     private static final long serialVersionUID = 1L;
 
     public Integer getRecId() {
