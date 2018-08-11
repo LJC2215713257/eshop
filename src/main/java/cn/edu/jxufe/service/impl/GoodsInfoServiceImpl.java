@@ -29,4 +29,10 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     public Goodsinfo findByGoodsId(int gid) {
         return goodsDAO.selectByPrimaryKey(gid);
     }
+
+    @Override
+    public List<Goodsinfo> findByCateAndPage(int cateid, int page, int count) {
+        PageHelper.startPage(page,count);
+        return goodsDAO.findByCategory(cateid);
+    }
 }

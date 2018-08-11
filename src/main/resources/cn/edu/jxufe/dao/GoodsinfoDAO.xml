@@ -35,6 +35,9 @@
     SELECT * FROM goodsinfo
   </select>
 
+  <select id="findByCategory" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * FROM goodsinfo WHERE gc_id=#{cateId}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -33,11 +33,6 @@ public class PageController {
         }
     }
 
-    @RequestMapping(value = "category")
-    public String shopCategory(HttpSession session){
-        return "category";
-    }
-
     @RequestMapping(value = "login")
     public String login(){
 

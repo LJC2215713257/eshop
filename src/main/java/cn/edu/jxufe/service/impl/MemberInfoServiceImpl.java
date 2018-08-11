@@ -18,7 +18,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
         Memberinfo memberinfo = new Memberinfo();
         memberinfo.setMemberMobile(tel);
         memberinfo.setMemberPasswd(psw);
-        return dao.findByParams(memberinfo).get(0);
+        List<Memberinfo> ms = dao.findByParams(memberinfo);
+        if(ms.size()!=0&&ms!=null) {
+            return ms.get(0);
+        }else{
+            return null;
+        }
     }
 
     @Override

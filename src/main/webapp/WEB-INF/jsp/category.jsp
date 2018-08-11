@@ -27,6 +27,8 @@
 <script src="../../js/jquery.js"></script>
 <script src="../../js/swiper.min.js"></script>
 <script>
+ var page_n=1;
+ var cateid = "goods/next_page";
 $(document).ready(function(){
   $(".des_icon").click(function(){
 	  $(this).toggleClass("asc_icon");
@@ -36,7 +38,73 @@ $(document).ready(function(){
 	  $(".drop_list li a").click(function(){
 		  $(this).parents(".drop_list").hide();
 		  });
-	  });
+  });
+  $(".more_btn").click(function () {
+      console.log(cateid);
+      console.log("more info");
+      page_n+=1;
+
+      $.post(cateid,{page:page_n},function (data) {
+          console.log(data);
+          var gl = $("ul[name=goods]");
+          var str = new Array();
+          for(var i=0;i<data.length;i++){
+              str.push("<li>\n" +
+                  "      <a href=\"goods/info"+data[i].goodsId+"\" class=\"goodsPic\">\n" +
+                  "       <img src=\"../../upload/"+data[i].goodsImage+"\"/>\n" +
+                  "      </a>\n" +
+                  "      <div class=\"goodsInfor\">\n" +
+                  "       <h2>\n" +
+                  "        <a href=\"goods/info"+data[i].goodsId+"\">"+data[i].goodsName+" "+data[i].gcName+"</a>\n" +
+                  "       </h2>\n" +
+                  "       <p>\n" +
+                  "        <del>"+data[i].goodsPrice+"</del>\n" +
+                  "       </p>\n" +
+                  "       <p>\n" +
+                  "        <strong class=\"price\">"+data[i].goodsSellPrice+"</strong>\n" +
+                  "       </p>\n" +
+                  "       <a class=\"addToCart\">&#126;</a>\n" +
+                  "      </div>\n" +
+                  "     </li>");
+          }
+          if(data.length<10){
+              $(".more_btn").hide();
+          }
+          $(gl).html($(gl).html()+str.join());
+      });
+  });
+  $("ul[name=category]>li>a").click(function () {
+      cateid = $(this).attr("name");
+      page_n = 1;
+      $.post($(this).attr("name"),function (data) {
+          var gl = $("ul[name=goods]");
+          var str = new Array();
+
+          for(var i=0;i<data.length;i++){
+              str.push("<li>\n" +
+                  "      <a href=\"goods/info"+data[i].goodsId+"\" class=\"goodsPic\">\n" +
+                  "       <img src=\"../../upload/"+data[i].goodsImage+"\"/>\n" +
+                  "      </a>\n" +
+                  "      <div class=\"goodsInfor\">\n" +
+                  "       <h2>\n" +
+                  "        <a href=\"goods/info"+data[i].goodsId+"\">"+data[i].goodsName+" "+data[i].gcName+"</a>\n" +
+                  "       </h2>\n" +
+                  "       <p>\n" +
+                  "        <del>"+data[i].goodsPrice+"</del>\n" +
+                  "       </p>\n" +
+                  "       <p>\n" +
+                  "        <strong class=\"price\">"+data[i].goodsSellPrice+"</strong>\n" +
+                  "       </p>\n" +
+                  "       <a class=\"addToCart\">&#126;</a>\n" +
+                  "      </div>\n" +
+                  "     </li>");
+          }
+          if(data.length<10){
+              $(".more_btn").hide();
+          }
+          $(gl).html(str.join());
+      });
+  });
    //飞入动画，具体根据实际情况调整
    $(".addToCart").click(function(){
 	        $(".hoverCart a").html(parseInt($(".hoverCart a").html())+1);/*测试+1*/
@@ -54,8 +122,8 @@ $(document).ready(function(){
             },"slow");
 	   });
 	var mySwiper = new Swiper('.swiper-container',{
-	slidesPerView :5,
-	slidesPerGroup :5,
+      slidesPerView :5,
+      slidesPerGroup :5,
 	})
 });
 </script>
@@ -68,124 +136,147 @@ $(document).ready(function(){
 </header>
 <!-- category Swiper -->
 <div class="swiper-container category_list">
-    <ul class="swiper-wrapper">
-        <li class="swiper-slide"><a href="category.jsp">分类</a></li>
-        <li class="swiper-slide"><a href="category.jsp">横向滚动</a></li>
-        <li class="swiper-slide"><a href="category.jsp" class="curr_link">当前分类</a></li>
-        <li class="swiper-slide"><a href="category.jsp">分类</a></li>
-        <li class="swiper-slide"><a href="category.jsp">玻璃</a></li>
-        <li class="swiper-slide"><a href="category.jsp">创意</a></li>
-        <li class="swiper-slide"><a href="category.jsp">设计</a></li>
-        <li class="swiper-slide"><a href="category.jsp">设计稿</a></li>
-        <li class="swiper-slide"><a href="category.jsp">测试</a></li>
-        <li class="swiper-slide"><a href="category.jsp">分类</a></li>
+    <ul class="swiper-wrapper" name="category">
+     <c:forEach items="${cates}" var="c">
+       <li class="swiper-slide"><a href="javascript:void(0)" name="cate/findcate${c.catId}">${c.catName}</a></li>
+     </c:forEach>
+        <%--<li class="swiper-slide"><a href="category.jsp">分类</a></li>--%>
+        <%--<li class="swiper-slide"><a href="category.jsp">横向滚动</a></li>--%>
+        <%--<li class="swiper-slide"><a href="category.jsp" class="curr_link">当前分类</a></li>--%>
+        <%--<li class="swiper-slide"><a href="category.jsp">分类</a></li>--%>
+        <%--<li class="swiper-slide"><a href="category.jsp">玻璃</a></li>--%>
+        <%--<li class="swiper-slide"><a href="category.jsp">创意</a></li>--%>
+        <%--<li class="swiper-slide"><a href="category.jsp">设计</a></li>--%>
+        <%--<li class="swiper-slide"><a href="category.jsp">设计稿</a></li>--%>
+        <%--<li class="swiper-slide"><a href="category.jsp">测试</a></li>--%>
+        <%--<li class="swiper-slide"><a href="category.jsp">分类</a></li>--%>
     </ul>
     <!-- Add Pagination -->
     <div class="swiper-pagination"></div>
 </div>
  <!--asc->1[升序asc_icon];des->0[降序des_icon]-->
  <ul class="sift_nav">
-  <li><a class="des_icon">价格</a></li>
-  <li><a class="des_icon">销量优先</a></li>
+  <li><a name="sort_name" class="des_icon">价格</a></li>
+  <li><a name="sort_sale" class="des_icon">销量优先</a></li>
   <li>
    <a class="nav_li drop_icon">筛选项目</a>
    <ul class="drop_list">
-    <li><a>自定义</a></li>
-    <li><a>自定义</a></li>
-    <li><a>自定义</a></li>
-    <li><a>自定义</a></li>
+    <li><a name="sort_name">评论</a></li>
+    <li><a name="sort_name">推荐</a></li>
+    <%--<li><a> </a></li>--%>
+    <%--<li><a>自定义</a></li>--%>
    </ul>
   </li>
  </ul>
 <!--productList-->
 <section class="productList">
-  <ul>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods001.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">水晶骷髅头 工艺品</a>
-     </h2>
-     <p>
-      <del>5.90</del>
-     </p>
-     <p>
-      <strong class="price">3.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods002.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">时尚烟灰缸 玻璃制品</a>
-     </h2>
-     <p>
-      <del>12.90</del>
-     </p>
-     <p>
-      <strong class="price">8.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods003.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">花杯 带底座</a>
-     </h2>
-     <p>
-      <del>9.90</del>
-     </p>
-     <p>
-      <strong class="price">6.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods005.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">新婚天鹅 玻璃工艺品</a>
-     </h2>
-     <p>
-      <del>9.90</del>
-     </p>
-     <p>
-      <strong class="price">6.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods004.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">招财貔貅</a>
-     </h2>
-     <p>
-      <del>9.90</del>
-     </p>
-     <p>
-      <strong class="price">6.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
-  </ul>
+  <ul name="goods">
+   <c:forEach items="${goods}" var="g">
+     <li>
+      <a href="goods/info${g.goodsId}" class="goodsPic">
+       <img src="../../upload/${g.goodsImage}"/>
+      </a>
+      <div class="goodsInfor">
+       <h2>
+        <a href="goods/info${g.goodsId}">${g.goodsName} ${g.gcName}</a>
+       </h2>
+       <p>
+        <del>${g.goodsPrice}</del>
+       </p>
+       <p>
+        <strong class="price">${g.goodsSellPrice}</strong>
+       </p>
+       <a class="addToCart">&#126;</a>
+      </div>
+     </li>
+   </c:forEach>
+   </ul>
+   <%--<li>--%>
+    <%--<a href="product.jsp" class="goodsPic">--%>
+     <%--<img src="../../upload/goods001.jpg"/>--%>
+    <%--</a>--%>
+    <%--<div class="goodsInfor">--%>
+     <%--<h2>--%>
+      <%--<a href="product.jsp">水晶骷髅头 工艺品</a>--%>
+     <%--</h2>--%>
+     <%--<p>--%>
+      <%--<del>5.90</del>--%>
+     <%--</p>--%>
+     <%--<p>--%>
+      <%--<strong class="price">3.90</strong>--%>
+     <%--</p>--%>
+     <%--<a class="addToCart">&#126;</a>--%>
+    <%--</div>--%>
+   <%--</li>--%>
+   <%--<li>--%>
+    <%--<a href="product.jsp" class="goodsPic">--%>
+     <%--<img src="../../upload/goods002.jpg"/>--%>
+    <%--</a>--%>
+    <%--<div class="goodsInfor">--%>
+     <%--<h2>--%>
+      <%--<a href="product.jsp">时尚烟灰缸 玻璃制品</a>--%>
+     <%--</h2>--%>
+     <%--<p>--%>
+      <%--<del>12.90</del>--%>
+     <%--</p>--%>
+     <%--<p>--%>
+      <%--<strong class="price">8.90</strong>--%>
+     <%--</p>--%>
+     <%--<a class="addToCart">&#126;</a>--%>
+    <%--</div>--%>
+   <%--</li>--%>
+   <%--<li>--%>
+    <%--<a href="product.jsp" class="goodsPic">--%>
+     <%--<img src="../../upload/goods003.jpg"/>--%>
+    <%--</a>--%>
+    <%--<div class="goodsInfor">--%>
+     <%--<h2>--%>
+      <%--<a href="product.jsp">花杯 带底座</a>--%>
+     <%--</h2>--%>
+     <%--<p>--%>
+      <%--<del>9.90</del>--%>
+     <%--</p>--%>
+     <%--<p>--%>
+      <%--<strong class="price">6.90</strong>--%>
+     <%--</p>--%>
+     <%--<a class="addToCart">&#126;</a>--%>
+    <%--</div>--%>
+   <%--</li>--%>
+   <%--<li>--%>
+    <%--<a href="product.jsp" class="goodsPic">--%>
+     <%--<img src="../../upload/goods005.jpg"/>--%>
+    <%--</a>--%>
+    <%--<div class="goodsInfor">--%>
+     <%--<h2>--%>
+      <%--<a href="product.jsp">新婚天鹅 玻璃工艺品</a>--%>
+     <%--</h2>--%>
+     <%--<p>--%>
+      <%--<del>9.90</del>--%>
+     <%--</p>--%>
+     <%--<p>--%>
+      <%--<strong class="price">6.90</strong>--%>
+     <%--</p>--%>
+     <%--<a class="addToCart">&#126;</a>--%>
+    <%--</div>--%>
+   <%--</li>--%>
+   <%--<li>--%>
+    <%--<a href="product.jsp" class="goodsPic">--%>
+     <%--<img src="../../upload/goods004.jpg"/>--%>
+    <%--</a>--%>
+    <%--<div class="goodsInfor">--%>
+     <%--<h2>--%>
+      <%--<a href="product.jsp">招财貔貅</a>--%>
+     <%--</h2>--%>
+     <%--<p>--%>
+      <%--<del>9.90</del>--%>
+     <%--</p>--%>
+     <%--<p>--%>
+      <%--<strong class="price">6.90</strong>--%>
+     <%--</p>--%>
+     <%--<a class="addToCart">&#126;</a>--%>
+    <%--</div>--%>
+   <%--</li>--%>
+  <%--</ul>--%>
   <a class="more_btn">加载更多</a>
 </section>
 <!--floatCart-->

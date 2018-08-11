@@ -19,6 +19,9 @@
     from goods_category
     where cat_id = #{catId,jdbcType=INTEGER}
   </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    SELECT * FROM goods_category
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from goods_category
     where cat_id = #{catId,jdbcType=INTEGER}

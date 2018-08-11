@@ -29,7 +29,7 @@ public class GoodsController {
 
     @RequestMapping(value = "next_page")
     @ResponseBody
-    public Object getNextPage(@RequestParam(name = "page") int page,@RequestParam(name = "count") int count){
+    public Object getNextPage(@RequestParam(name = "page") int page,@RequestParam(name = "count",defaultValue = "10") int count){
         return goodsInfoService.findByPage(page,count);
     }
 }

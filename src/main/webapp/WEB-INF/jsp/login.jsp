@@ -74,8 +74,8 @@ $(document).ready(function(){
 <div style="height:1.2rem;"></div>
 <nav>
  <a href="index" class="homeIcon">首页</a>
- <a href="category.jsp" class="categoryIcon">分类</a>
- <a href="order/list" class="cartIcon">购物车</a>
+ <a href="cate/category" class="categoryIcon">分类</a>
+ <a href="cart" class="cartIcon">购物车</a>
  <a href="#" class="userIcon">我的</a>
 </nav>
 </body>
