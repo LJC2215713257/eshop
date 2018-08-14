@@ -7,7 +7,9 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class GoodsInfoServiceImpl implements GoodsInfoService {
@@ -31,8 +33,17 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     }
 
     @Override
-    public List<Goodsinfo> findByCateAndPage(int cateid, int page, int count) {
+    public List<Goodsinfo> findByGoodsIdSet(List<Integer> gids) {
+        return goodsDAO.findByGoodsIdSet(gids);
+    }
+
+    @Override
+    public List<Goodsinfo> findByCateAndPage(int cateid, int page, int count, String sort,String orderBy) {
         PageHelper.startPage(page,count);
-        return goodsDAO.findByCategory(cateid);
+        Map map = new HashMap();
+        map.put("cateid",cateid);
+        map.put("sort",sort);
+        map.put("orderBy",orderBy);
+        return goodsDAO.findByCategory(map);
     }
 }

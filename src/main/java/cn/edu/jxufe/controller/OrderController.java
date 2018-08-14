@@ -10,7 +10,6 @@ import cn.edu.jxufe.service.GoodsInfoService;
 import cn.edu.jxufe.service.OrderInfoGoodsService;
 import cn.edu.jxufe.service.OrderInfoService;
 import com.alibaba.fastjson.JSON;
-import com.fasterxml.jackson.databind.type.ArrayType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -40,7 +39,7 @@ public class OrderController {
     public String listOrderInfo(ModelMap map,HttpSession session){
         Memberinfo menber = (Memberinfo) session.getAttribute("user");
         if(menber!=null&&menber.getMemberId()!=0){
-            map.put("orders",orderInfoService.findByBuyerId(1));
+            map.put("orders",orderInfoService.findByBuyerId(menber.getMemberId()));
         }
         return "order_list";
     }
@@ -51,6 +50,7 @@ public class OrderController {
         Message message = new Message();
         Memberinfo menber = (Memberinfo) session.getAttribute("user");
         System.out.println(menber);
+
 
         if(menber!=null&&menber.getMemberId()!=null) {
             Orderinfo order = (Orderinfo) session.getAttribute("cart");
@@ -95,6 +95,14 @@ public class OrderController {
                 order.setOrderAmount(order.getOrderAmount()+orderGoods.getGoodsPayPrice());
                 session.setAttribute("cart",order);
                 message.setTitle("1");
+                if(session.getAttribute("orderNum")==null){
+                    session.setAttribute("orderNum",new Integer(1));
+                }else{
+                    Integer num = (Integer) session.getAttribute("orderNum");
+                    num = num+1;
+                    session.setAttribute("orderNum",num);
+                }
+
                 return message;
             }
             message.setTitle("4");
@@ -109,7 +117,7 @@ public class OrderController {
     @ResponseBody
     public Message update(@RequestParam(name = "cart") String cart, HttpSession session){
         List<Cart> obj= JSON.parseArray(cart,Cart.class);
-        System.out.println("update "+obj);
+        System.out.println("update "+obj.size());
         System.out.println();
         Message message = new Message();
         Orderinfo order = (Orderinfo) session.getAttribute("cart");
@@ -117,7 +125,12 @@ public class OrderController {
             for (Cart c:obj){
                 for(OrderinfoGoods og:order.getOrderGoodsList()){
                     if(og.getGoodsId()==c.getGoodsId()){
-                        og.setGoodsNum(c.getNum());
+                        order.setOrderAmount(order.getOrderAmount()+(c.getNum()-og.getGoodsNum())*og.getGoodsPayPrice());
+                        if(c.getNum()==0){
+                            order.getOrderGoodsList().remove(og);
+                        }else {
+                            og.setGoodsNum(c.getNum());
+                        }
                         break;
                     }
                 }
@@ -128,25 +141,29 @@ public class OrderController {
     }
 
     @RequestMapping(value = "savaCart")
-    @ResponseBody
-    public Message saveCart(HttpSession session){
-        Message message = new Message();
+    public String saveCart(HttpSession session){
         Memberinfo menber = (Memberinfo) session.getAttribute("user");
         if(menber!=null){
             Orderinfo orderinfo = (Orderinfo) session.getAttribute("cart");
             if(orderinfo!=null){
                 orderinfo.setCreatedTime(new Date());
-                message.setTitle("1");
-                message.setEntity(orderInfoService.insertSelective(orderinfo));
+                orderInfoService.insertSelective(orderinfo);
+                System.out.println();
+                System.out.println();
+                String order_id = ""+orderInfoService.findByOrderSn(orderinfo.getOrderSn());
                 for(OrderinfoGoods og:orderinfo.getOrderGoodsList()){
+                    og.setOrderId(order_id);
                     og.setCreatedTime(new Date());
                     orderGoodsService.insertSelective(og);
                 }
-                return message;
+                session.removeAttribute("cart");
+                if(session.getAttribute("orderNum")!=null){
+                    session.removeAttribute("orderNum");
+                }
+                session.setAttribute("orderNum",new Integer(0));
             }
         }
-        message.setTitle("0");
-        return message;
+        return "forward:/order/list";
     }
 
 }

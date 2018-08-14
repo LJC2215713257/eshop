@@ -51,4 +51,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             return 0;
         }
     }
+
+    @Override
+    public String findByOrderSn(String sn) {
+        return dao.findByOrderSn(sn);
+    }
 }

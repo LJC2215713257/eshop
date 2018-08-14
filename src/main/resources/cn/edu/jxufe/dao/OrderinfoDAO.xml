@@ -31,7 +31,9 @@
     <result column="order_state" jdbcType="INTEGER" property="orderState" />
     <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
     <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
-    <collection property="orderGoodsList" column="order_id" select="findOrderGoodsByOrderId"></collection>
+    <collection property="orderGoodsList" column="order_id" ofType="cn.edu.jxufe.entity.OrderinfoGoods" select="findOrderGoodsByOrderId">
+
+    </collection>
   </resultMap>
 
   <resultMap id="BaseOrderMap" type="cn.edu.jxufe.entity.OrderinfoGoods">
@@ -49,6 +51,10 @@
 
   <select id="findOrderGoodsByOrderId" parameterType="java.lang.Integer" resultMap="BaseOrderMap">
     SELECT orderinfo_goods.*,goods_image FROM orderinfo_goods,goodsinfo WHERE order_id=#{order_id} and orderinfo_goods.goods_id=goodsinfo.goods_id
+  </select>
+
+  <select id="findByOrderSn" parameterType="java.lang.String" resultType="java.lang.String">
+    select order_id from orderinfo where order_sn=#{sn}
   </select>
 
   <select id="findAll" resultMap="OrderDetail">

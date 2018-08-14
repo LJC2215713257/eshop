@@ -1,3 +1,4 @@
+<%@ page import="cn.edu.jxufe.entity.Memberinfo" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
@@ -31,28 +32,28 @@
 <header>
  <a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
  <h1>个人中心</h1>
- <a href="user_set.jsp" class="iconfont setIcon">&#42;</a>
+ <a href="user/user_set" class="iconfont setIcon">&#42;</a>
 </header>
 <div class="userInfor">
- <a class="userIcon"><img src="../../images/icon/DefaultAvatar.jpg"/></a>
- <h2>176029****2</h2>
+ <a class="userIcon"><img src="../../images/icon/${pic}"/></a>
+ <h2>${name}</h2>
 </div>
 <ul class="userList">
- <li><a href="order_list.jsp" class="orderListIcon">订单</a></li>
- <li><a href="favorite.jsp" class="collectionIcon">喜欢</a></li>
- <li><a href="profile.jsp" class="profileIcon">资料</a></li>
+ <li><a href="order/list" class="orderListIcon">订单</a></li>
+ <li><a href="col/favorite" class="collectionIcon">喜欢</a></li>
+ <li><a href="user/profile" class="profileIcon">资料</a></li>
 </ul>
 <div class="user_designs">
- <a href="upload_file.jsp">发布作品</a>
- <a href="product_list.jsp">我的作品</a>
+ <a href="upload_file">发布作品</a>
+ <a href="product_list">我的作品</a>
 </div>
 <!--fixedNav:footer-->
 <div style="height:1.2rem;"></div>
 <nav>
- <a href="index.jsp" class="homeIcon">首页</a>
- <a href="category.jsp" class="categoryIcon">分类</a>
- <a href="cart.jsp" class="cartIcon">购物车</a>
- <a href="user.jsp" class="userIcon">我的</a>
+ <a href="index" class="homeIcon">首页</a>
+ <a href="cate/category" class="categoryIcon">分类</a>
+ <a href="cart" class="cartIcon">购物车</a>
+ <a href="user" class="userIcon">我的</a>
 </nav>
 </body>
 </html>

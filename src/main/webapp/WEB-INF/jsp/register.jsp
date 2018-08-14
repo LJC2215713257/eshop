@@ -28,9 +28,27 @@
 <script>
 $(document).ready(function(){
    $(".formarea li:last input[type='button']").click(function(){
-	   alert("测试跳转效果，程序对接予以删除!");
-	   location.href="login.jsp";
-	   });	
+       $.post("user/register",{tel:$("#tel").val(),k:$("#k").val()},function (data) {
+           console.log(data);
+           if(data.title!=1){
+               $(".formMark").html(data.entity);
+           }else{
+               $(".formMark").html("默认密码为123456！");
+               $(this).hide();
+               setTimeout(function (args) { location.href="login" },3000);
+           }
+       });
+   });
+
+   $(".checkCode").click(function () {
+
+       $.post("user/getKey",{tel:$("#tel").val()},function (data) {
+           console.log(data);
+           if(data.title!=1){
+               $(".formMark").html(data.entity);
+           }
+       });
+   });
 });
 </script>
 </head>
@@ -40,16 +58,16 @@ $(document).ready(function(){
  <a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
  <h1>注册</h1>
 </header>
-<mark class="formMark">这里可以放置提示性语句！</mark>
+<mark class="formMark"></mark>
 <ul class="formarea">
  <li>
   <label class="lit">账号：</label>
-  <input type="tel" placeholder="手机号码" class="textbox" placeholder="HZIT"/>
+  <input id="tel" type="tel" placeholder="手机号码" class="textbox" placeholder="HZIT"/>
  </li>
  <li style="padding:0;"><a class="checkCode">获取手机校验码</a></li>
  <li>
   <label class="lit">校验码：</label>
-  <input type="number" placeholder="输入六位校验码" class="textbox"/>
+  <input id="k" type="number" placeholder="输入六位校验码" class="textbox"/>
  </li>
  <li class="liLink">
   <a href="article.jsp" class="fl">《用户协议》</a>
@@ -62,10 +80,10 @@ $(document).ready(function(){
 <!--fixedNav:footer-->
 <div style="height:1.2rem;"></div>
 <nav>
- <a href="index.jsp" class="homeIcon">首页</a>
- <a href="category.jsp" class="categoryIcon">分类</a>
- <a href="cart.jsp" class="cartIcon">购物车</a>
- <a href="user.jsp" class="userIcon">我的</a>
+ <a href="index" class="homeIcon">首页</a>
+ <a href="category" class="categoryIcon">分类</a>
+ <a href="cart" class="cartIcon">购物车</a>
+ <a href="user" class="userIcon">我的</a>
 </nav>
 </body>
 </html>

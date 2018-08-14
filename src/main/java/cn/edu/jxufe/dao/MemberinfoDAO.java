@@ -12,5 +12,6 @@ import java.util.List;
 public interface MemberinfoDAO extends MyBatisBaseDao<Memberinfo, Integer> {
 
     //判断是否存在
+    int updateByPrimaryKeySelective(Memberinfo memberinfo);
     public List<Memberinfo> findUser(String tel,String pwd);
 }

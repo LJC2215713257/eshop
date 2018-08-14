@@ -29,6 +29,7 @@ public class CartController {
                 cart.setBuyerName(user.getMemberName());
                 cart.setBuyerTel(user.getMemberMobile());
                 cart.setOrderGoodsList(new ArrayList<OrderinfoGoods>());
+                session.setAttribute("cart",cart);
             }
             message.setTitle("1");
             message.setEntity(cart);

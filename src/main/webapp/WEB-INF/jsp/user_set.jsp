@@ -32,10 +32,10 @@
  <h1>设置</h1>
 </header>
 <ul class="inforList">
- <li><a href="change_pwd.jsp" class="isNext">修改密码</a></li>
- <li><a href="address.jsp" class="isNext">我的地址</a></li>
- <li><a href="article.jsp" class="isNext">关于我们</a></li>
- <li><a href="login.jsp" class="lastBtn">安全退出</a></li>
+ <li><a href="user/change_pwd" class="isNext">修改密码</a></li>
+ <li><a href="user/address" class="isNext">我的地址</a></li>
+ <li><a href="user/article" class="isNext">关于我们</a></li>
+ <li><a href="user/relogin" class="lastBtn">安全退出</a></li>
 </ul>
 </body>
 </html>

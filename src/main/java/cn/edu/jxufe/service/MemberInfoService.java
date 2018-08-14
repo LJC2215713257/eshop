@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface MemberInfoService {
     Memberinfo login(String tel,String psw);
+    int register(Memberinfo memberinfo);
     List<Memberinfo> findByParams(Memberinfo memberinfo);
-
+    boolean isTelUserful(String tel);
+    int updataBySelective(Memberinfo memberinfo);
 }

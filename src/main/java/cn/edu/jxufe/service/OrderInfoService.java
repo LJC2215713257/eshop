@@ -9,4 +9,5 @@ public interface OrderInfoService {
     int delectOrder(int orderId);
     int payMoney(int orderId);
     int insertSelective(Orderinfo orderinfo);
+    String findByOrderSn(String sn);
 }

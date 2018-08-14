@@ -29,6 +29,7 @@
 <script>
  var page_n=1;
  var cateid = "goods/next_page";
+ var sort = "asc";
 $(document).ready(function(){
   $(".des_icon").click(function(){
 	  $(this).toggleClass("asc_icon");
@@ -37,14 +38,14 @@ $(document).ready(function(){
 	  $(".drop_list").toggle();
 	  $(".drop_list li a").click(function(){
 		  $(this).parents(".drop_list").hide();
-		  });
+      });
   });
   $(".more_btn").click(function () {
       console.log(cateid);
       console.log("more info");
       page_n+=1;
 
-      $.post(cateid,{page:page_n},function (data) {
+      $.post(cateid,{sort:sort,page:page_n},function (data) {
           console.log(data);
           var gl = $("ul[name=goods]");
           var str = new Array();
@@ -76,7 +77,7 @@ $(document).ready(function(){
   $("ul[name=category]>li>a").click(function () {
       cateid = $(this).attr("name");
       page_n = 1;
-      $.post($(this).attr("name"),function (data) {
+      $.post($(this).attr("name"),{},function (data) {
           var gl = $("ul[name=goods]");
           var str = new Array();
 
@@ -121,6 +122,9 @@ $(document).ready(function(){
 				opacity:1
             },"slow");
 	   });
+   $("a[name=sort_price]").click(function () {
+
+   });
 	var mySwiper = new Swiper('.swiper-container',{
       slidesPerView :5,
       slidesPerGroup :5,
@@ -156,13 +160,13 @@ $(document).ready(function(){
 </div>
  <!--asc->1[升序asc_icon];des->0[降序des_icon]-->
  <ul class="sift_nav">
-  <li><a name="sort_name" class="des_icon">价格</a></li>
+  <li><a name="goodsSellPrice" class="des_icon">价格</a></li>
   <li><a name="sort_sale" class="des_icon">销量优先</a></li>
   <li>
    <a class="nav_li drop_icon">筛选项目</a>
    <ul class="drop_list">
-    <li><a name="sort_name">评论</a></li>
-    <li><a name="sort_name">推荐</a></li>
+    <li><a name="sort_comment">评论</a></li>
+    <li><a name="sort_thu">点赞</a></li>
     <%--<li><a> </a></li>--%>
     <%--<li><a>自定义</a></li>--%>
    </ul>
@@ -281,7 +285,7 @@ $(document).ready(function(){
 </section>
 <!--floatCart-->
 <div class="hoverCart">
- <a href="cart.jsp">0</a>
+ <a href="cart">0</a>
 </div>
 </body>
 </html>

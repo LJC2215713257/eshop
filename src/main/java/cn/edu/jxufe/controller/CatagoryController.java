@@ -33,8 +33,14 @@ public class CatagoryController {
 
     @RequestMapping(value = "findcate{catId}")
     @ResponseBody
-    public List<Goodsinfo> findCate(@PathVariable int catId,@RequestParam(defaultValue = "1") int page){
-        return goodsInfoService.findByCateAndPage(catId,page,10);
+    public List<Goodsinfo> findCate(@PathVariable int catId,@RequestParam(defaultValue = "asc") String sort,@RequestParam(defaultValue = "1") int page){
+        return goodsInfoService.findByCateAndPage(catId,page,10,sort,"goods_id");
+    }
+
+    @RequestMapping(value = "sort")
+    @ResponseBody
+    public List<Goodsinfo> sortGoodsInfo(int catId,String orderBy,@RequestParam(defaultValue = "asc") String sort,ModelMap map){
+        return goodsInfoService.findByCateAndPage(catId,1,10,sort,orderBy);
     }
 
 }

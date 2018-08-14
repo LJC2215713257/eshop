@@ -10,8 +10,13 @@
   <sql id="Base_Column_List">
     cid, memberid, goodsid, c_time
   </sql>
+  
+  <select id="findByMid" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT goodsid FROM collectioninfo WHERE memberid=#{mid} ORDER BY c_time desc
+  </select>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from collectioninfo
     where cid = #{cid,jdbcType=INTEGER}

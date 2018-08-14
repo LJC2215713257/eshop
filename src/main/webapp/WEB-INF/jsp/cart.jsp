@@ -41,7 +41,8 @@ $(document).ready(function(){
 	  $(this).html("完成");
 	  $(".numberWidget").show();
 	  $(".priceArea").hide();
-	  },function(){
+	  },
+      function(){
       $("span[name=showNum]").show();
       if(cart.length>0) {
           $.post("order/update", {cart:JSON.stringify(cart)}, function (data) {
@@ -56,11 +57,13 @@ $(document).ready(function(){
   //minus
   $(".minus").click(function(){
 	  var currNum=$(this).siblings(".number");
-	  $("#amount").html(parseFloat($("#amount").html())+parseFloat($(this).siblings("[type=hidden]").val()));
+	  $("#amount").html(parseFloat($("#amount").html())-parseFloat($(this).siblings("[type=hidden]").val()));
 	  if(currNum.val()<=1){
 		  $(this).parents("dd").remove();
+		  $("#catenum").html(parseInt($("catenum").html())-1);
           nullTips();
       }else{
+          $(this).parents("dd").find("span[name=showNum]").html(parseInt(currNum.val())-1);
           currNum.val(parseInt(currNum.val())-1);
       }
       var i;
@@ -76,11 +79,12 @@ $(document).ready(function(){
           obj.num=parseInt(currNum.val())-1;
           cart.push(obj);
       }
-	  });
+
+  });
   //plus
   $(".plus").click(function(){
 	  var currNum=$(this).siblings(".number");
-      $("#amount").html(parseFloat($("#amount").html())-parseFloat($(this).siblings("[type=hidden]").val()));
+      $("#amount").html(parseFloat($("#amount").html())+parseFloat($(this).siblings("[type=hidden]").val()));
       var i;
 	  for(i=0;i<cart.length;i++){
 	      if(cart[i].goodsId==currNum.attr("name")){
@@ -94,13 +98,33 @@ $(document).ready(function(){
           obj.num=parseInt(currNum.val())+1;
           cart.push(obj);
       }
+      $(this).parents("dd").find("span[name=showNum]").html(parseInt(currNum.val())+1);
 	  currNum.val(parseInt(currNum.val())+1);
+
   });
   //delBtn
   $(".delBtn").click(function(){
-	  $(this).parent().remove();
-	  nullTips();
-	  });
+      var goodsid = $(this).parent().find(".number").attr("name");
+      var i;
+      for(i=0;i<cart.length;i++){
+          if(cart[i].goodsId==goodsid){
+              cart[i].num=0;
+              console.log();
+              break;
+          }
+      }
+      if(i==cart.length){
+          var obj = new Object();
+          obj.goodsId = goodsid;
+          obj.num=0;
+          cart.push(obj);
+      }
+      $("#amount").html(parseFloat($("#amount").html())
+          +parseFloat($(this).siblings("[type=hidden]").val())*parseInt($(this).siblings(".number").val()));
+      $(this).parent().remove();
+      $("#catenum").html(parseInt($("catenum").html())-1);
+      nullTips();
+  });
   //isNull->tips
   function nullTips(){
 	  if($(".cart dd").length==0){
@@ -161,7 +185,7 @@ $(document).ready(function(){
  </dd>
  </c:forEach>
  <%} else{%>
- <h1>未登录！请先<a href="login">登录</a></h1>
+    <h1>未登录！请先<a href="login">登录</a></h1>
  <%}%>
  <%--<dd>--%>
   <%--<input type="checkbox" name="row"/>--%>
@@ -208,8 +232,22 @@ $(document).ready(function(){
 <div style="height:1rem;"></div>
 <aside class="btmNav">
  <ul>
-  <li><a class="cart_icon"><em>0</em></a></li>
-  <li><a>合计：￥<span id="amount">${cart.orderAmount}</span></a></li>
+  <li><a class="cart_icon"><em id="catenum">
+      <c:if test="${orderNum!=null}">
+          ${orderNum}
+      </c:if>
+      <c:if test="${orderNum==null}">
+          0
+      </c:if>
+  </em></a></li>
+  <li><a>合计：￥<span id="amount">
+      <c:if test="${cart!=null}">
+          ${cart.orderAmount}
+      </c:if>
+      <c:if test="${cart==null}">
+          0
+      </c:if>
+  </span></a></li>
   <li><a href="order/savaCart">立即下单</a></li>
  </ul>
 </aside>

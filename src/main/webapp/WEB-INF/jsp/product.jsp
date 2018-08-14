@@ -44,41 +44,42 @@
             background-color:#fff;
         }
 
-        .cart_list>h1{
+        .cart_list{
+            background-color: #fff1dc00;
             font-size: 24px;
             line-height: 60px;
             padding-left: 30px;
-            color:#8B7D7B;
+            color:#9C746E;
         }
         .cart_list ul{
+            display: block;
+            width: 100%;
             margin: 0px auto;
             border:0px;
             padding: 0px auto;
+
         }
 
          .cart_list>ul>li{
              -webkit-box-flex: unset;
              box-flex:unset;
              -moz-box-flex: unset;
-            list-style: none;
-             display:-moz-box; /* Firefox */
-             display:-webkit-box; /* Safari and Chrome */
-            width: 100%;
-            height: 42px;
+             list-style: none;
+             display: block;
+             width: 100%;
+             height: 45px;
              line-height: 42px;
-            border-bottom: 1px solid #aaaaaa;
+             border-bottom: 1px solid #aaaaaa;
+             background: none!important;
          }
 
         .cart_list>ul>li>span{
             display: block;
+            width: 33%;
             float:left;
         }
 
          .cart_list>ul>li>span:nth-child(1){
-
-             -webkit-box-flex: 1;
-             box-flex:1;
-             -moz-box-flex: 1;
              font-size: 20px;
          }
 
@@ -88,9 +89,6 @@
 
         .cart_list>ul>li>span:nth-child(2){
             text-align: center;
-            -webkit-box-flex: 1;
-            box-flex:1;
-            -moz-box-flex: 1;
              font-size: 16px;
         }
         .cart_list>ul>li>span:nth-child(3):before{
@@ -98,10 +96,7 @@
         }
         .cart_list>ul>li>span:nth-child(3){
             text-align: right;
-            -webkit-box-flex: 1;
-            box-flex:1;
-            -moz-box-flex: 1;
-             font-size: 14px;
+            font-size: 14px;
         }
     </style>
 <script>
@@ -133,7 +128,7 @@ function shopCart() {
 }
 
 function flushCart(data) {
-
+    console.log(data);
     var btmNav =  $(".btmNav");
     var cart = $(".cart_list");
     if(data.title=="1"){
@@ -141,7 +136,7 @@ function flushCart(data) {
         var ulstr = "<ul>";
         for(var i=0;i<gds.length;i++){
             ulstr+="<li><span>"+gds[i].goodsName+"</span><span>"
-                +gds[i].goodsPayPrice+"</span><span>"+gds[i].goodsNum+"</span></li>"
+                +gds[i].goodsPayPrice+"</span><span>"+gds[i].goodsNum+"</span></li>";
         }
         ulstr+="</ul>";
         $(cart).html(ulstr);
@@ -234,7 +229,13 @@ function turnCart() {
  <div class="cart_list">
  </div>
  <ul >
-  <li onclick="turnCart()"><a class="cart_icon" ><em  name="gNum">0</em></a></li>
+  <li onclick="turnCart()"><a class="cart_icon" ><em  name="gNum">
+   <c:if test="${orderNum!=null}">
+    ${orderNum}
+   </c:if>
+   <c:if test="${orderNum==null}">
+     0
+   </c:if></em></a></li>
   <li><a name="amout">合计：￥0.00</a></li>
   <li><a href="cart">立即下单</a></li>
  </ul>

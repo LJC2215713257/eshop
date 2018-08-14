@@ -10,5 +10,6 @@ public interface GoodsInfoService {
     List<Goodsinfo> findAll();
     List<Goodsinfo> findByPage(int page,int count);
     Goodsinfo findByGoodsId(int gid);
-    List<Goodsinfo> findByCateAndPage(int cateid,int page,int count);
+    List<Goodsinfo> findByGoodsIdSet(List<Integer> gids);
+    List<Goodsinfo> findByCateAndPage(int cateid,int page,int count,String sort,String orderBy);
 }

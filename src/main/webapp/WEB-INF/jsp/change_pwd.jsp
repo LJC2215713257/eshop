@@ -9,7 +9,7 @@
 <head>
  <meta charset="utf-8"/>
  <base href="<%=basePath %>"/>
-<title>搜索-合众饰品专卖</title>
+<title>修改密码-合众饰品专卖</title>
 <meta name="keywords"  content="KEYWORDS..." />
 <meta name="description" content="DESCRIPTION..." />
 <meta name="author" content="HZIT" />
@@ -29,9 +29,31 @@
 $(document).ready(function(){
   //测试返回页面，程序对接删除即可
   $(".userForm input[type='button']").click(function(){
-	  alert("密码修改成功！");
-	  location.href="user_set.jsp";
-	  });	
+      $.post("user/up_pwd",{old_p:$("#old_p").val(),new_p:$("#new_p").val(),check_p:$("#check_p").val()},function (data) {
+          console.log(data);
+          switch (data.title){
+              case "-1":{
+                  console.log($(".d_tip[name=new_p]"));
+                  $(".d_tip[name=new_p]").html(data.entity);
+                  $(".d_tip[name=check_p]").html(data.entity);
+                  break;}
+              case "0":{
+                  console.log($(".d_tip[name=new_p]"));
+                  $(".d_tip[name=old_p]").html(data.entity);
+                  setTimeout(function () {
+                      location.href="login";
+                  },2000);
+                  break;}
+              case "1":{
+                  $(".d_tip[name=old_p]").html(data.entity);
+                  location.href="user/user_set";
+                  break;}
+              case "2":{
+                  $(".d_tip[name=old_p]").html(data.entity);
+                  break;}
+          }
+      });
+  });
 });
 </script>
 </head>
@@ -43,26 +65,26 @@ $(document).ready(function(){
 </header>
 <ul class="userForm">
  <li>
- <label class="formName">旧密码：</label>
- <input type="password" required placeholder="旧密码..."/>
+ <label class="formName">旧密码：<span class="d_tip" name="old_p"></span></label>
+ <input id="old_p" type="password" required placeholder="旧密码..."/>
  </li>
  <li>
- <label class="formName">新密码：</label>
- <input type="password" required placeholder="新密码..."/>
+ <label class="formName">新密码：<span class="d_tip" name="new_p"></span></label>
+ <input id="new_p" type="password" required placeholder="新密码..."/>
  </li>
  <li>
- <label class="formName">确认新密码：</label>
- <input type="password" required placeholder="确认新密码..."/>
+  <label class="formName">确认新密码：<span class="d_tip" name="check_p"></span></label>
+ <input id="check_p" type="password" required placeholder="确认新密码..."/>
  </li>
  <li><input type="button" value="确认修改密码" class="formLastBtn"/></li>
 </ul>
 <!--fixedNav:footer-->
 <div style="height:1.2rem;"></div>
 <nav>
- <a href="index.jsp" class="homeIcon">首页</a>
- <a href="category.jsp" class="categoryIcon">分类</a>
- <a href="cart.jsp" class="cartIcon">购物车</a>
- <a href="user.jsp" class="userIcon">我的</a>
+ <a href="index" class="homeIcon">首页</a>
+ <a href="cate/category" class="categoryIcon">分类</a>
+ <a href="cart" class="cartIcon">购物车</a>
+ <a href="user" class="userIcon">我的</a>
 </nav>
 </body>
 </html>

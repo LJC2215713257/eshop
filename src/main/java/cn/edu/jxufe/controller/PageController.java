@@ -18,9 +18,13 @@ public class PageController {
     private AdvertisementService advService;
 
     @RequestMapping(value = "index")
-    public String index(ModelMap map){
+    public String index(ModelMap map,HttpSession session){
         map.put("goodslist",goodsService.findByPage(1,10));
         map.put("advs",advService.findOnLineAdv());
+        if(session.getAttribute("orderNum")==null){
+            session.setAttribute("orderNum",0);
+        }
+        map.put("orderNum",session.getAttribute("orderNum"));
         return "index";
     }
 
@@ -29,13 +33,12 @@ public class PageController {
         if(session.getAttribute("user")==null){
             return "login";
         }else {
-            return "user";
+            return "forward:user/info";
         }
     }
 
     @RequestMapping(value = "login")
     public String login(){
-
         return "login";
     }
 
@@ -49,11 +52,25 @@ public class PageController {
         return "find_pwd";
     }
 
+    @RequestMapping(value = "change_name")
+    public String changeName(){
+        return "change_name";
+    }
+
+    @RequestMapping(value = "change_tel")
+    public String changeTel(){
+        return "change_tel";
+    }
+
     @RequestMapping(value = "cart")
     public String opneCart(HttpSession session,ModelMap map){
         Orderinfo cart = (Orderinfo) session.getAttribute("cart");
         if(cart!=null){
             map.put("cart",cart);
+            if(session.getAttribute("orderNum")==null){
+                session.setAttribute("orderNum",0);
+            }
+            map.put("orderNum",session.getAttribute("orderNum"));
         }
         return "cart";
     }

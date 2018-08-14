@@ -27,7 +27,29 @@ public class MemberInfoServiceImpl implements MemberInfoService {
     }
 
     @Override
+    public int register(Memberinfo memberinfo) {
+        return dao.insertSelective(memberinfo);
+    }
+
+    @Override
     public List<Memberinfo> findByParams(Memberinfo memberinfo) {
-        return null;
+        return dao.findByParams(memberinfo);
+    }
+
+    @Override
+    public boolean isTelUserful(String tel) {
+        Memberinfo m = new Memberinfo();
+        m.setMemberMobile(tel);
+        List<Memberinfo> i = dao.findByParams(m);
+        if(i.size()>0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    @Override
+    public int updataBySelective(Memberinfo memberinfo) {
+        return dao.updateByPrimaryKeySelective(memberinfo);
     }
 }
