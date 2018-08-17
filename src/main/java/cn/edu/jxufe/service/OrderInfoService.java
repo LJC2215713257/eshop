@@ -10,4 +10,6 @@ public interface OrderInfoService {
     int payMoney(int orderId);
     int insertSelective(Orderinfo orderinfo);
     String findByOrderSn(String sn);
+    Orderinfo findByOid(Integer orderid);
+    int updateOrder(Orderinfo orderinfo);
 }

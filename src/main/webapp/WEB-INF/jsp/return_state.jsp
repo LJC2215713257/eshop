@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%
  String path = request.getContextPath();
  String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -28,15 +29,15 @@
 <body>
 <!--header-->
 <header>
- <a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
+ <a href="index" class="iconfont backIcon">&#60;</a>
  <h1>订单状态</h1>
 </header>
 <section class="return_state">
  <!--订单状态图标：0为成功；1为失败-->
  <h2 class="state_0">订单提交成功！</h2>
- <p>订单编号：201512121140</p>
- <p>订单金额：<strong>0.00</strong></p>
- <p>支付时间：<time>2015-12-12 11:41:38</time></p>
+ <p>订单编号：${os.orderSn}</p>
+ <p>订单金额：<strong>${os.orderAmount}</strong></p>
+ <p>支付时间：<time><fmt:formatDate value="${os.paymentTime}" pattern="yyyy-MM-dd-mm-ss"/></time></p>
  <p>
   <a href="order_list">查看订单</a>
   <a href="index">返回首页</a>

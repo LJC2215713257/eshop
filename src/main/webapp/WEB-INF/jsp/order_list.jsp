@@ -29,6 +29,37 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+ <script>
+     var orderid;
+  $(document).ready(function () {
+
+
+  });
+
+  function  updateState(state,obj) {
+      orderid = $(obj).attr("name");
+      console.log($(obj));
+      if(state==1){
+          $.post("order/payfororder",{orderid:$(obj).attr("name")},function (data) {
+              if(data.title=="1"){
+                  location.href="order/statepage";
+              }else{
+                  alert("付款失败！");
+              }
+          });
+      }
+
+      if(state==0){
+          $.post("order/deletefororder",{orderid:$(obj).attr("name")},function (data) {
+              if(data.title=="1"){
+                  $("li [name="+orderid+"]").remove();
+              }else{
+                  alert("删除失败！");
+              }
+          });
+      }
+  }
+ </script>
 </head>
 <body>
 <!--header-->
@@ -48,26 +79,24 @@
 <ul class="orderList">
  <!--订单循环li-->
  <c:forEach items="${orders}" var="order">
-  <li>
+  <li name="${order.orderId}">
    <dl>
     <dt>
-     <span>订单：${order.orderSn}</span>
-     <span><c:choose>
-      <c:when test="${order.orderState}==0">
-       已取消
+     <span>订单：${order.orderSn}</span><c:choose>
+      <c:when test="${order.orderState==0}">
+     <span>已取消</span>
       </c:when>
-      <c:when test="${order.orderState}==20">
-       已付款
+      <c:when test="${order.orderState==20}">
+        <span>已付款</span>
       </c:when>
-      <c:when test="${order.orderState}==30">
-       已发货
+      <c:when test="${order.orderState==30}">
+        <span>已发货</span>
       </c:when>
-      <c:when test="${order.orderState}==40">
-       已收货
+      <c:when test="${order.orderState==40}">
+        <span>已收货</span>
       </c:when>
-      <c:otherwise>未付款</c:otherwise>
-
-     </c:choose></span>
+      <c:otherwise> <span>未付款</span></c:otherwise>
+     </c:choose>
     </dt>
     <!--订单产品循环dd-->
     <c:forEach items="${order.orderGoodsList}" var="detail">
@@ -80,13 +109,14 @@
     </dd>
     </c:forEach>
     <dd>
-     <span>商品数量：<b>${fn:length(order.orderGoodsList)}</b></span>
-     <span>实付：<b>${order.orderAmount}</b></span>
+       <span>商品数量：<b>${fn:length(order.orderGoodsList)}</b></span>
+       <span>实付：<b>${order.orderAmount}</b></span>
     </dd>
     <dd>
-
-     <a class="order_delBtn">删除订单</a>
-     <a class="order_payBtn">付款</a>
+     <c:if test="${order.orderState==10}">
+     <a class="order_delBtn" name="${order.orderId}" onclick="updateState(0,this)">删除订单</a>
+     <a class="order_payBtn" name="${order.orderId}" onclick="updateState(1,this)">付款</a>
+     </c:if>
     </dd>
    </dl>
   </li>

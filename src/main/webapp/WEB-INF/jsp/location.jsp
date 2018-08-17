@@ -60,7 +60,7 @@
 <body>
 <!--header-->
 <header>
- <a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
+ <a href="index" class="iconfont backIcon">&#60;</a>
  <h1>我的位置</h1>
 </header>
 <div class="location_auto">定位城市：<span>自动定位...</span></div>

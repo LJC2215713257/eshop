@@ -11,6 +11,7 @@ import cn.edu.jxufe.service.OrderInfoGoodsService;
 import cn.edu.jxufe.service.OrderInfoService;
 import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -100,6 +101,7 @@ public class OrderController {
                 }else{
                     Integer num = (Integer) session.getAttribute("orderNum");
                     num = num+1;
+                    session.removeAttribute("orderNum");
                     session.setAttribute("orderNum",num);
                 }
 
@@ -166,4 +168,62 @@ public class OrderController {
         return "forward:/order/list";
     }
 
+    @RequestMapping(value = "payfororder")
+    @ResponseBody
+    public Message payForOrder(@RequestParam(name = "orderid",defaultValue = "null") Integer orderid,HttpSession session){
+        Message msg = new Message();
+        if(orderid!=null){
+            Orderinfo order = orderInfoService.findByOid(orderid);
+            if(order!=null){
+                Orderinfo temp = new Orderinfo();
+                temp.setOrderId(orderid);
+                temp.setOrderState(20);
+                temp.setPaymentTime(new Date());
+                orderInfoService.updateOrder(temp);
+                msg.setTitle("1");
+                session.removeAttribute("order_state");
+                order.setOrderState(20);
+                order.setPaymentTime(new Date());
+                session.setAttribute("order_state",order);
+            }else{
+                msg.setTitle("0");
+            }
+        }else{
+            msg.setTitle("-1");
+        }
+        return msg;
+    }
+
+    @RequestMapping(value = "deletefororder")
+    @ResponseBody
+    public Message deleteForOrder(@RequestParam(name = "orderid",defaultValue = "null") Integer orderid){
+        Message msg = new Message();
+        if(orderid!=null){
+            Orderinfo order = orderInfoService.findByOid(orderid);
+            if(order!=null){
+                Orderinfo temp = new Orderinfo();
+                temp.setOrderId(orderid);
+                temp.setOrderState(0);
+                temp.setUpdatedTime(new Date());
+                orderInfoService.updateOrder(temp);
+                msg.setTitle("1");
+            }else{
+                msg.setTitle("0");
+            }
+        }else{
+            msg.setTitle("-1");
+        }
+        return msg;
+    }
+
+    @RequestMapping(value = "statepage")
+    public String pageState(HttpSession session,ModelMap map){
+        Orderinfo order = (Orderinfo) session.getAttribute("order_state");
+        System.out.println(order);
+        if(order!=null){
+            map.put("os",order);
+            return "return_state";
+        }
+        return "404";
+    }
 }

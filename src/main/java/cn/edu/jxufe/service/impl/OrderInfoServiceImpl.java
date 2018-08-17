@@ -56,4 +56,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public String findByOrderSn(String sn) {
         return dao.findByOrderSn(sn);
     }
+
+    @Override
+    public Orderinfo findByOid(Integer orderid) {
+        return dao.findByOid(orderid);
+    }
+
+    @Override
+    public int updateOrder(Orderinfo orderinfo) {
+        return dao.updateOrder(orderinfo);
+    }
 }

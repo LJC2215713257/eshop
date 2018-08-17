@@ -62,7 +62,7 @@ public class UploadFileController {
             e.printStackTrace();
         }
         goodsInfoService.uploadGoods(title,subtitle,url,mid,time);
-        return "upload_file";
+        return "forward:user";
     }
 
 

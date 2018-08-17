@@ -91,7 +91,7 @@ $(document).ready(function(){
  <a href="index" class="homeIcon">首页</a>
  <a href="cate/category" class="categoryIcon">分类</a>
  <a href="cart" class="cartIcon">购物车</a>
- <a href="#" class="userIcon">我的</a>
+ <a href="javascript:void(0);" class="userIcon">我的</a>
 </nav>
 </body>
 </html>

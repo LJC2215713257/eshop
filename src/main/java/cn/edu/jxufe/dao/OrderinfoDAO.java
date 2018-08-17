@@ -12,4 +12,6 @@ import java.util.List;
 public interface OrderinfoDAO extends MyBatisBaseDao<Orderinfo, Orderinfo> {
     List<Orderinfo> findByBuyerId(int buy_id);
     String findByOrderSn(String sn);
+    Orderinfo findByOid(int orderid);
+    int updateOrder(Orderinfo orderinfo);
 }

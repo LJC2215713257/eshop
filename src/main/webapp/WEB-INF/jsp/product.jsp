@@ -183,7 +183,7 @@ function turnCart() {
 <body>
 <!--header-->
 <header>
- <a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
+ <a href="index" class="iconfont backIcon">&#60;</a>
  <h1>产品详情</h1>
 </header>
 <div class="pro_bigImg">
