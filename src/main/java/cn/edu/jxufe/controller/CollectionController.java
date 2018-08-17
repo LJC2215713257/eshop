@@ -28,8 +28,10 @@ public class CollectionController {
         if(user!=null&&user.getMemberId()!=null){
             List<Integer> gids = colservice.findByPage(user.getMemberId());
             System.out.println("size :"+gids.size());
-            List<Goodsinfo> gls = goodsservice.findByGoodsIdSet(gids);
-            map.put("goodsls",gls);
+            if(!gids.isEmpty()) {
+                List<Goodsinfo> gls = goodsservice.findByGoodsIdSet(gids);
+                map.put("goodsls",gls);
+            }
             return "favorite";
         }else{
             return "login";

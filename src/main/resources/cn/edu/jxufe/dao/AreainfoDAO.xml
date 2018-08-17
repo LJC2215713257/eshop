@@ -22,6 +22,26 @@
     from areainfo
     where area_id = #{areaId,jdbcType=INTEGER}
   </select>
+
+  <select id="findByAreaDeep" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM areainfo
+    <where>
+      <if test="parentid!=null">area_parent_id=#{parentid} </if> AND area_deep=#{deep}
+    </where>
+  </select>
+
+  <select id="findByPName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT area_id FROM areainfo WHERE area_name=#{areaName}
+  </select>
+
+    <select id="findCityByZi" parameterType="cn.edu.jxufe.entity.Areainfo" resultType="java.lang.String">
+        select area_name from areainfo where area_deep=2 and GROUPID=#{zimu} order by area_sort desc
+    </select>
+
+    <select id="findHotCity" parameterType="cn.edu.jxufe.entity.Areainfo" resultType="java.lang.String">
+        select area_name from areainfo where area_deep=2 and isHot=1 order by area_sort desc
+    </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from areainfo
     where area_id = #{areaId,jdbcType=INTEGER}

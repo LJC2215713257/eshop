@@ -25,6 +25,13 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+ <script>
+  $(function(){
+   $("#sub").click(function(){
+    $("#f").submit(); //普通提交
+   })
+  })
+ </script>
 </head>
 <body>
 <!--header-->
@@ -33,31 +40,25 @@
  <h1>点评</h1>
 </header>
 <div class="comment_input">
- <textarea placeholder="输入评论内容..."></textarea>
- <input type="button" value="评论"/>
+ <form id="f" action="goods/uploadcom" method="post">
+ <textarea name="com" placeholder="输入评论内容..."></textarea>
+</form>
+ <input id="sub" type="button" value="评论"/>
 </div>
 <div class="comment_cont">
  <ul>
+  <c:forEach items="${clist}" var="c">
   <li>
    <div class="user_infor">
     <span class="user_pic"><img src="../../images/icon/DefaultAvatar.jpg"/></span>
     <span class="rt_infor">
-     <em>HZIT</em>
-     <time>2018-05-12 16:01:38</time>
+     <em>LJC</em>
+     <time>${c.scommTime}</time>
     </span>
    </div>
-   <div class="comment_cont_txt">这里是用户评论的信息。。。</div>
+   <div class="comment_cont_txt">${c.scommContent}</div>
   </li>
-  <li>
-   <div class="user_infor">
-    <span class="user_pic"><img src="../../images/icon/DefaultAvatar.jpg"/></span>
-    <span class="rt_infor">
-     <em>张三</em>
-     <time>2018-05-12 16:01:38</time>
-    </span>
-   </div>
-   <div class="comment_cont_txt">这里是用户评论的这里是用户评论的信息这里是用户评论的信息这里是用户评论的信息信息。。。</div>
-  </li>
+  </c:forEach>
  </ul>
 </div>
 </body>

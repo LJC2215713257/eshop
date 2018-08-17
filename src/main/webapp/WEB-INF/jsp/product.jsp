@@ -187,7 +187,7 @@ function turnCart() {
  <h1>产品详情</h1>
 </header>
 <div class="pro_bigImg">
- <img src="../../upload/${goods.goodsImage}"/>
+ <img src="${goods.goodsImage}"/>
 </div>
 <!--base information-->
 <section class="pro_baseInfor">
@@ -211,7 +211,7 @@ function turnCart() {
   </li>
   <li class="more_link" onClick="location.href='comment'">
    <span>评论</span>
-   <span>共计<b>${goods.commentNum}</b>人点评</span>
+   <span  onClick="location.href='comment'">共计<b>${goods.commentNum}</b>人点评</span>
   </li>
   <li>
    <span>成交</span>

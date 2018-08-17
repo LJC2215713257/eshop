@@ -15,4 +15,5 @@ import java.util.Map;
 public interface GoodsinfoDAO extends MyBatisBaseDao<Goodsinfo, Integer> {
     List<Goodsinfo> findByCategory(Map map);
     List<Goodsinfo> findByGoodsIdSet(@Param("gids") List<Integer> gids);
+    public List<Goodsinfo> findAllGoodsByProperty(@Param("goods")Map map);
 }

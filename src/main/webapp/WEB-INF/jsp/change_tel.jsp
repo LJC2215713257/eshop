@@ -25,6 +25,21 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+ 
+ <script>
+     $(function () {
+         $(".formLastBtn").click(function () {
+
+             $.post("user/updateTel",{tel:$("#tel").val()},function (data) {
+                 if(data.title==1){
+                     location.href="user/profile";
+                 } else{
+                     alert(data.entity);
+                 }
+             });
+         });
+     });
+ </script>
 </head>
 <body>
 <!--header-->
@@ -33,7 +48,7 @@
  <h1>手机号码</h1>
 </header>
 <ul class="userForm">
- <li><input type="text" value="18309****73" placeholder="修改手机号码"/></li>
+ <li><input id="tel" type="text" value="${tel}" placeholder="修改手机号码"/></li>
  <li><input type="button" value="更新保存" class="formLastBtn"/></li>
 </ul>
 </body>

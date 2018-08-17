@@ -25,6 +25,17 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+ <style>
+  .wx_sty{
+   background-image: url("../../images/icon/wxlogo.png");
+   background-repeat: no-repeat;
+   background-size:auto 100%;
+   display: inline-block;
+   height: 33px;
+   width:60px;
+   margin-left: 30px;
+  }
+ </style>
 <script>
 $(document).ready(function(){
    $(".formarea li:last input[type='button']").click(function(){
@@ -41,6 +52,9 @@ $(document).ready(function(){
                    }
                });
        }
+   });
+   $(".wx_sty").click(function () {
+       location.href="wxlogin";
    });
 });
 </script>
@@ -61,6 +75,7 @@ $(document).ready(function(){
  </li>
  <li class="liLink">
   <a href="register" class="fl">新用户注册</a>
+  <span class="wx_sty"></span>
   <a href="find_pwd" class="fr">忘记密码?</a>
  </li>
  <li style="color:#FF6347;font-size: 16px; background-color:transparent;margin-bottom: 30px;">

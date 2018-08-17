@@ -9,7 +9,7 @@
 <head>
  <meta charset="utf-8"/>
  <base href="<%=basePath %>"/>
-<title>修改-合众饰品专卖</title>
+<title>登录-合众饰品专卖</title>
 <meta name="keywords"  content="KEYWORDS..." />
 <meta name="description" content="DESCRIPTION..." />
 <meta name="author" content="HZIT" />
@@ -25,30 +25,33 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+<script>
+$(document).ready(function(){
+   $(".formarea li:last input[type='button']").click(function(){
+        $.post("reSendWx",function (data) {
 
- <script>
-  $(function () {
-      $(".formLastBtn").click(function () {
-          $.post("user/updateName", {name: $("#name").val()}, function (data) {
-              if (data.title == 1) {
-                  location.href = "user/profile";
-              } else {
-                  alert(data.entity);
-              }
-          });
-      });
-  });
- </script>
+        });
+   });
+});
+</script>
 </head>
 <body>
-<!--header-->
 <header>
  <a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
- <h1>用户昵称</h1>
+ <h1>登录</h1>
 </header>
-<ul class="userForm">
- <li><input id="name" type="text" value="${name}" placeholder="设置用户名"/></li>
- <li><input type="button" value="更新保存" class="formLastBtn"/></li>
+<ul class="formarea">
+ <li>
+  <input type="button" style="background-color: #82db3f;color:#fff;" value="微信登录"/>
+ </li>
 </ul>
+<!--fixedNav:footer-->
+<div style="height:1.2rem;"></div>
+<nav>
+ <a href="index" class="homeIcon">首页</a>
+ <a href="cate/category" class="categoryIcon">分类</a>
+ <a href="cart" class="cartIcon">购物车</a>
+ <a href="#" class="userIcon">我的</a>
+</nav>
 </body>
 </html>

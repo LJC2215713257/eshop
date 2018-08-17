@@ -25,13 +25,96 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+    <style>
+        .userForm>ul>li{
+            position: relative;
+        }
+
+        .add_tip{
+            display: block;
+            height: 43px;
+            width: auto;
+            top:0px;
+            right:0px;
+            float:right;
+            text-align: right;
+            line-height: 43px;
+            font-size: 14px;
+            color:#777;
+            margin-top:-43px;
+            z-index: 100;
+        }
+
+    </style>
 <script>
 $(document).ready(function(){
   //测试返回页面，程序对接删除即可
   $(".userForm input[type='button']").click(function(){
-	  alert("地址修改成功！");
-	  location.href="user_set.jsp";
-	  });	
+      if($("#prov").val()!=""){
+
+          if($("#city").val()!=""){
+
+              if($("#area").val()!=""){
+                  $.post("area/commitaddr",{provincename:$("#prov").val(),cityname:$("#city").val(),
+                      areaname:$("#area").val(),detailaddress:$("textarea").eq(0).val()
+                  },function (data) {
+                      if(data.title==1){
+                          //location.href="user/user_set";
+                      }
+
+                  });
+              }else{
+                  $("#area").siblings("label").css("color","#d93420");
+              }
+          }else{
+              $("#city").siblings("label").css("color","#d93420");
+          }
+      }else{
+          $("#prov").siblings("label").css("color","#d93420");
+      }
+
+
+
+
+  });
+
+  $(".userForm li>select").focus(function () {
+      var la = $(this).siblings("label");
+      la.css("color","#777");
+  });
+
+    $("#prov").bind("change",function () {
+        if($("#prov").val()!=""){
+            $.post("area/arealist",{pname:$("#prov").val(),deep:2},function (data) {
+                var opts = new Array();
+                for(var i=0;i<data.length;i++){
+                    opts.push("<option>"+data[i].areaName+"</option>");
+                }
+                $("#city").html(opts.join());
+                if($("#city").val()!=""){
+                    $.post("area/arealist",{pname:$("#city").val(),deep:3},function (data) {
+                        var opts = new Array();
+                        for(var i=0;i<data.length;i++){
+                            opts.push("<option>"+data[i].areaName+"</option>");
+                        }
+                        $("#area").html(opts.join(""));
+                    });
+                }
+            });
+        }
+    });
+
+    $("#city").bind("change",function () {
+        if($("#city").val()!=""){
+            $.post("area/arealist",{pname:$("#city").val(),deep:3},function (data) {
+                var opts = new Array();
+                for(var i=0;i<data.length;i++){
+                    opts.push("<option>"+data[i].areaName+"</option>");
+                }
+                $("#area").html(opts.join(""));
+            });
+        }
+    });
 });
 </script>
 </head>
@@ -43,25 +126,39 @@ $(document).ready(function(){
 </header>
 <ul class="userForm">
  <li>
-  <input type="text" value="HZIT"/>
+  <input id="add_tip" placeholder="备注" type="text" value="${memberid}"/>
  </li>
  <li>
-  <select>
-   <option>山东省</option>
+  <select id="prov" autocomplete="off">
+   <c:forEach items="${pros}" var="p">
+     <c:if test="${addr.provincename==p.areaName&&addr.provincename!=null}">
+      <option selected="selected">
+              ${p.areaName}
+      </option>
+     </c:if>
+    <c:if test="${provincename!=p.areaName}">
+     <option>
+       ${p.areaName}
+     </option>
+    </c:if>
+   </c:forEach>
   </select>
+     <label class="add_tip">省份</label>
  </li>
  <li>
-  <select>
-   <option>德州市</option>
+  <select id="city">
+   <option>${addr.cityname}</option>
   </select>
+     <label class="add_tip">城市</label>
  </li>
  <li>
-  <select>
-   <option>德城区</option>
+  <select id="area">
+   <option>${addr.areaname}</option>
   </select>
+     <label class="add_tip">区</label>
  </li>
  <li>
-  <textarea>三八东路德州市体育中心</textarea>
+  <textarea id="#detail" placeholder="请填写地址的详细信息！">${addr.detailaddress}</textarea>
  </li>
  <li>
   <input type="button" value="修改地址" class="formLastBtn"/>

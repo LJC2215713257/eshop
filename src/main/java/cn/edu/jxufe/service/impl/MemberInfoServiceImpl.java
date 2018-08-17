@@ -49,7 +49,24 @@ public class MemberInfoServiceImpl implements MemberInfoService {
     }
 
     @Override
+    public boolean isNameUserful(String name) {
+        Memberinfo m = new Memberinfo();
+        m.setMemberName(name);
+        List<Memberinfo> i = dao.findByParams(m);
+        if(i.size()>0){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    @Override
     public int updataBySelective(Memberinfo memberinfo) {
         return dao.updateByPrimaryKeySelective(memberinfo);
+    }
+
+    @Override
+    public Integer getMId(String mname) {
+        return dao.findIdByName(mname);
     }
 }

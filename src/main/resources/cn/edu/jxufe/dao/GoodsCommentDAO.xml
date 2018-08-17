@@ -17,10 +17,14 @@
     scomm_time, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from goods_comment
     where scomm_id = #{scommId,jdbcType=INTEGER}
+  </select>
+
+  <select id="findcontent" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select scomm_content from goods_comment where goodis_id = #{goodisId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from goods_comment

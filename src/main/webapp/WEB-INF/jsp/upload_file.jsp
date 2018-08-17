@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>--%>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -25,6 +26,16 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+<script src="../../easyui/js/ajaxform.js"></script>
+<script src="../../easyui/js/jquery-1.4.4.min.js"></script>
+<script>
+    $(function(){
+        $("#sub").click(function(){
+            $("#f").submit(); //普通提交
+            confirm("上传成功！");
+        })
+    })
+</script>
 </head>
 <body>
 <!--header-->
@@ -34,25 +45,29 @@
 </header>
 <div class="upload_file">
  <ul>
+     <form id="f" action="uploadfile" method="post" enctype="multipart/form-data">
   <li>
-   <label id="file_pic">
-    <input type="file" style="display:none;"/>
-    <img src="../../images/uploadImg.png"/>
-   </label>
+
+          <label id="file_pic">
+              <input type="file" name="fs" style="display:none;"/>
+              <img src="../../images/uploadImg.png"/>
+          </label>
+
   </li>
-  <li>
-   <label>标题：</label>
-   <input type="text" placeholder="作品标题..."/>
-  </li>
-  <li>
-   <label>内容：</label>
-   <textarea placeholder="作品概要..."></textarea>
-  </li>
-  <li>
-   <label>作者：</label>
-   <input type="text" placeholder="作者..." value="HZIT"/>
-  </li>
-  <li><input type="button" value="提交作品"/></li>
+         <li>
+             <label>标题：</label>
+             <input type="text" name="title" placeholder="作品标题..."/>
+         </li>
+         <li>
+             <label>内容：</label>
+             <textarea name="subtitle" placeholder="作品概要..."></textarea>
+         </li>
+         <li>
+             <label>作者：</label>
+             <input type="text" name="author" placeholder="作者..."/>
+         </li>
+     </form>
+     <li><input id="sub" type="button" value="提交作品"/></li>
  </ul>
 </div>
 <script>
@@ -73,7 +88,8 @@
     var reader = new FileReader(); 
     reader.readAsDataURL(file); 
     reader.onload = function(e){ 
-        showImg.innerHTML ='<img src="'+this.result+'"/>' ;
+        //showImg.innerHTML ='<img src="'+this.result+'"/>' ;
+        showImg.getElementsByTagName("img")[0].src=this.result;
     } 
  } 
  </script>

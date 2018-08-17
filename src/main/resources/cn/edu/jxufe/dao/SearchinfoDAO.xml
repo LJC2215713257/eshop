@@ -44,4 +44,7 @@
       </if>
     </trim>
   </insert>
+  <select id="findkey" parameterType="cn.edu.jxufe.entity.Searchinfo" resultMap="BaseResultMap">
+    SELECT DISTINCT search_key FROM searchinfo WHERE search_key is not null AND search_key!=''
+  </select>
 </mapper>

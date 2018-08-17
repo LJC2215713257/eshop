@@ -96,13 +96,18 @@ public class LoginController {
                     msg.setEntity("密码或确认密码为空！");
                 }else {
                     if (check_p.equals(new_p)) {
-                        Memberinfo temp = new Memberinfo();
-                        temp.setMemberId(memberinfo.getMemberId());
-                        temp.setMemberPasswd(new_p);
-                        memberInfoService.updataBySelective(temp);
-                        memberinfo.setMemberPasswd(new_p);
-                        msg.setTitle("1");
-                        msg.setEntity("success");
+                        if(memberinfo.getMemberPasswd().equals(old_p)) {
+                            Memberinfo temp = new Memberinfo();
+                            temp.setMemberId(memberinfo.getMemberId());
+                            temp.setMemberPasswd(new_p);
+                            memberInfoService.updataBySelective(temp);
+                            memberinfo.setMemberPasswd(new_p);
+                            msg.setTitle("1");
+                            msg.setEntity("success");
+                        }else{
+                            msg.setTitle("-2");
+                            msg.setEntity("旧密码错误！");
+                        }
                     } else {
                         msg.setTitle("-1");
                         msg.setEntity("密码和确认密码不一致！");
@@ -119,19 +124,21 @@ public class LoginController {
         return msg;
     }
 
-    @RequestMapping(value = "address")
-    public String addressPage(){
-        return "address";
-    }
-
     @RequestMapping(value = "article")
     public String articlePage(){
         return "article";
     }
 
     @RequestMapping(value = "profile")
-    public String profilePage(){
-        return "profile";
+    public String profilePage(HttpSession session,ModelMap map){
+        Memberinfo user = (Memberinfo) session.getAttribute("user");
+        if(user!=null) {
+            map.put("name",user.getMemberName());
+            map.put("tel",user.getMemberMobile());
+            return "profile";
+        }else{
+            return "login";
+        }
     }
 
     @RequestMapping(value = "getKey")
@@ -159,6 +166,60 @@ public class LoginController {
         }else{
             msg.setTitle("0");
             msg.setEntity("不匹配的手机号格式！");
+        }
+        return  msg;
+    }
+
+    @RequestMapping(value = "updateTel")
+    @ResponseBody
+    public Message updateTel(String tel,HttpSession session){
+        Message msg = new Message();
+        Memberinfo user = (Memberinfo) session.getAttribute("user");
+        Pattern pattern = Pattern.compile("[0-9]{11}");
+        msg.setTitle("-1");
+        if(user!=null) {
+            if (pattern.matcher(tel).matches()) {
+                if (memberInfoService.isTelUserful(tel)) {
+                    Memberinfo temp = new Memberinfo();
+                    temp.setMemberId(user.getMemberId());
+                    temp.setMemberMobile(tel);
+                    msg.setTitle(memberInfoService.updataBySelective(temp) + "");
+                    user.setMemberMobile(tel);
+                    msg.setEntity("success");
+                } else {
+                    msg.setTitle("4");
+                    msg.setEntity("手机号已注册！");
+                }
+            } else {
+                msg.setTitle("0");
+                msg.setEntity("不匹配的手机号格式！");
+            }
+        }
+        return  msg;
+    }
+
+    @RequestMapping(value = "updateName")
+    @ResponseBody
+    public Message updateName(String name,HttpSession session){
+        Message msg = new Message();
+        Memberinfo user = (Memberinfo) session.getAttribute("user");
+        //Pattern pattern = Pattern.compile("[0-9]{11}");
+        msg.setTitle("-1");
+        if(user!=null) {
+                if (memberInfoService.isNameUserful(name)) {
+                    Memberinfo temp = new Memberinfo();
+                    temp.setMemberId(user.getMemberId());
+                    temp.setMemberName(name);
+                    msg.setTitle(memberInfoService.updataBySelective(temp) + "");
+                    msg.setEntity("success");
+                    user.setMemberName(name);
+                } else {
+                    msg.setTitle("4");
+                    msg.setEntity("昵称已被使用！");
+                }
+        } else {
+            msg.setTitle("0");
+            msg.setEntity("用户未登录！");
         }
         return  msg;
     }

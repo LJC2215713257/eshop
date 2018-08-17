@@ -1,5 +1,7 @@
 package cn.edu.jxufe.controller;
 
+import cn.edu.jxufe.bean.Message;
+import cn.edu.jxufe.entity.Memberinfo;
 import cn.edu.jxufe.entity.Orderinfo;
 import cn.edu.jxufe.service.AdvertisementService;
 import cn.edu.jxufe.service.GoodsInfoService;
@@ -7,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
 
@@ -25,6 +29,7 @@ public class PageController {
             session.setAttribute("orderNum",0);
         }
         map.put("orderNum",session.getAttribute("orderNum"));
+        map.put("location",session.getAttribute("location"));
         return "index";
     }
 
@@ -53,13 +58,36 @@ public class PageController {
     }
 
     @RequestMapping(value = "change_name")
-    public String changeName(){
+    public String changeName(HttpSession session,ModelMap map){
+        Memberinfo user = (Memberinfo) session.getAttribute("user");
+        if(user!=null){
+            map.put("name",user.getMemberName());
+        }
         return "change_name";
     }
 
     @RequestMapping(value = "change_tel")
-    public String changeTel(){
+    public String changeTel(HttpSession session,ModelMap map){
+        Memberinfo user = (Memberinfo) session.getAttribute("user");
+        if(user!=null){
+            map.put("tel",user.getMemberMobile());
+        }
         return "change_tel";
+    }
+
+    @RequestMapping(value = "works")
+    public String pageWorks(){
+        return "upload_file";
+    }
+
+    @RequestMapping(value = "search")
+    public String search(){
+        return "search";
+    }
+
+    @RequestMapping(value = "comment")
+    public String comment(){
+        return "comment";
     }
 
     @RequestMapping(value = "cart")

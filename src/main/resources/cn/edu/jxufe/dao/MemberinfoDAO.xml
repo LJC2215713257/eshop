@@ -30,6 +30,11 @@
     from memberinfo
     where member_id = #{memberId,jdbcType=INTEGER}
   </select>
+
+  <select id="findIdByName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select member_id from memberinfo where member_name = #{memberName}
+  </select>
+
   <select id="findByParams" parameterType="cn.edu.jxufe.entity.Memberinfo" resultMap="BaseResultMap">
     SELECT * FROM memberinfo
     <where>

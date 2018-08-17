@@ -16,7 +16,6 @@ public class CollectionServiceImpl implements CollectionService {
     @Override
     public List<Integer> findByPage(int mid) {
         List<Integer> ls = dao.findByMid(mid);
-        System.out.println(" list :"+ls.get(0));
         return ls;
     }
 }

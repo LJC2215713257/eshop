@@ -9,5 +9,7 @@ public interface MemberInfoService {
     int register(Memberinfo memberinfo);
     List<Memberinfo> findByParams(Memberinfo memberinfo);
     boolean isTelUserful(String tel);
+    boolean isNameUserful(String name);
     int updataBySelective(Memberinfo memberinfo);
+    Integer getMId(String mname);
 }

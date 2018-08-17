@@ -35,6 +35,15 @@
     SELECT * FROM goodsinfo
   </select>
 
+  <select id="findAllGoodsByProperty" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT * FROM goodsinfo
+    <where>
+      <if test="goods.goodsName!=null">
+        goods_name LIKE CONCAT('%',#{goods.goodsName},'%') or gc_name LIKE CONCAT('%',#{goods.goodsName},'%')
+      </if>
+    </where>
+  </select>
+
   <select id="findByCategory" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT * FROM goodsinfo WHERE gc_id=#{cateid} ORDER BY #{orderBy} #{sort}
   </select>

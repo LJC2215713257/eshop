@@ -30,7 +30,7 @@ public class Areainfo implements Serializable {
     /**
      * 地区深度，从1开始
      */
-    private Boolean areaDeep;
+    private Integer areaDeep;
 
     /**
      * 字母索引
@@ -86,11 +86,11 @@ public class Areainfo implements Serializable {
         this.areaSort = areaSort;
     }
 
-    public Boolean getAreaDeep() {
+    public Integer getAreaDeep() {
         return areaDeep;
     }
 
-    public void setAreaDeep(Boolean areaDeep) {
+    public void setAreaDeep(Integer areaDeep) {
         this.areaDeep = areaDeep;
     }
 

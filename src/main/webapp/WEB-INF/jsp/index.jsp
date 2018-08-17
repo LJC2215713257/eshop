@@ -63,9 +63,10 @@
 <body>
 <!--header-->
 <header>
-  <a href="location.jsp" class="location">深圳市</a>
+  <a href="area/location" class="location"><c:if test="${location==null}">北京</c:if>
+    <c:if test="${location!=null}">${location}</c:if></a>
   <h1>合众饰品专卖</h1>
-  <a href="search.jsp" class="rt_searchIcon">&#37;</a>
+  <a href="search" class="rt_searchIcon">&#37;</a>
 </header>
 <!--slide-->
 <div class="slide">
@@ -90,7 +91,7 @@
         <li>
           <div class="productArea">
             <a href="goods/info${goods.goodsId}" class="goodsPic">
-              <img src="../../upload/${goods.goodsImage}"/>
+              <img src="${goods.goodsImage}"/>
             </a>
             <div class="goodsInfor">
               <h2>

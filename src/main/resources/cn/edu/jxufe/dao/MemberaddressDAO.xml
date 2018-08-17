@@ -19,6 +19,34 @@
     from memberaddress
     where addressid = #{addressid,jdbcType=INTEGER}
   </select>
+
+  <select id="findByParams" parameterType="cn.edu.jxufe.entity.Memberaddress" resultMap="BaseResultMap">
+    select * from memberaddress
+    <where>
+      <if test="addressid != null">
+        addressid =#{addressid}
+      </if>
+      <if test="provincename != null">
+        and provinceName=#{provincename}
+      </if>
+      <if test="cityname != null">
+        and cityName=#{cityname}
+      </if>
+      <if test="areaname != null">
+        and areaName=#{areaname}
+      </if>
+      <if test="detailaddress != null">
+        and detailaddress=#{detailaddress}
+      </if>
+      <if test="memberid != null">
+        and memberId =#{memberid}
+      </if>
+      <if test="memDefault != null">
+        and mem_default=#{memDefault}
+      </if>
+    </where>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from memberaddress
     where addressid = #{addressid,jdbcType=INTEGER}

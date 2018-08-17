@@ -34,15 +34,21 @@
 </header>
 <ul class="inforList">
  <li>
-  <a href="change_name.jsp" class="isNext">
+  <a href="change_name" class="isNext">
    <span>用户昵称</span>
-   <span>未设置</span>
+   <span>
+    <c:if test="${name==null}">未设置</c:if>
+    <c:if test="${name!=null}">${name}</c:if>
+   </span>
   </a>
  </li>
  <li>
-  <a href="change_tel.jsp" class="isNext">
+  <a href="change_tel" class="isNext">
    <span>手机号码</span>
-   <span>18309****73</span>
+   <span>
+    <c:if test="${tel==null}">未设置</c:if>
+    <c:if test="${tel!=null}">${tel}</c:if>
+   </span>
   </a>
  </li>
 </ul>

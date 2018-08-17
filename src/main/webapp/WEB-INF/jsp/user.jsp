@@ -44,7 +44,7 @@
  <li><a href="user/profile" class="profileIcon">资料</a></li>
 </ul>
 <div class="user_designs">
- <a href="upload_file">发布作品</a>
+ <a href="works">发布作品</a>
  <a href="product_list">我的作品</a>
 </div>
 <!--fixedNav:footer-->

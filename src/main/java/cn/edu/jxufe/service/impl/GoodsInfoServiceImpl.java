@@ -7,6 +7,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,4 +47,24 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         map.put("orderBy",orderBy);
         return goodsDAO.findByCategory(map);
     }
+
+    @Override
+    public List<Goodsinfo> findGoodsByGname(String str) {
+        Map map=new HashMap();
+        map.put("goodsName",str);
+        return goodsDAO.findAllGoodsByProperty(map);
+    }
+
+    @Override
+    public int uploadGoods(String goodsName, String goodsSubtitle, String goodsImage, Integer memberId, Date createTime) {
+        Goodsinfo g=new Goodsinfo();
+        g.setGoodsName(goodsName);
+        g.setGoodsSubtitle(goodsSubtitle);
+        g.setGoodsImage(goodsImage);
+        g.setMemberId(memberId);
+        g.setCreateTime(createTime);
+        return goodsDAO.insertSelective(g);
+    }
+
+
 }

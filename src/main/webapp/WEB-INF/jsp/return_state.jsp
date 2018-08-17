@@ -38,8 +38,8 @@
  <p>订单金额：<strong>0.00</strong></p>
  <p>支付时间：<time>2015-12-12 11:41:38</time></p>
  <p>
-  <a href="order_list.jsp">查看订单</a>
-  <a href="index.jsp">返回首页</a>
+  <a href="order_list">查看订单</a>
+  <a href="index">返回首页</a>
  </p>
 </section>
 </body>
