@@ -4,7 +4,9 @@ import cn.edu.jxufe.bean.Message;
 import cn.edu.jxufe.entity.Memberinfo;
 import cn.edu.jxufe.entity.Orderinfo;
 import cn.edu.jxufe.service.AdvertisementService;
+import cn.edu.jxufe.service.CommentService;
 import cn.edu.jxufe.service.GoodsInfoService;
+import cn.edu.jxufe.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,6 +22,10 @@ public class PageController {
     private GoodsInfoService goodsService;
     @Autowired
     private AdvertisementService advService;
+    @Autowired
+    private SearchService searchService;
+    @Autowired
+    private CommentService commentService;
 
     @RequestMapping(value = "index")
     public String index(ModelMap map,HttpSession session){
@@ -81,12 +87,21 @@ public class PageController {
     }
 
     @RequestMapping(value = "search")
-    public String search(){
+    public String search(ModelMap map,HttpSession session){
+        Memberinfo user = (Memberinfo) session.getAttribute("user");
+        if(user!=null) {
+            map.put("slist", searchService.showKey(user.getMemberId()));
+        }
         return "search";
     }
 
     @RequestMapping(value = "comment")
-    public String comment(){
+    public String comment(ModelMap map,HttpSession session){
+        Integer gid = (Integer) session.getAttribute("gid");
+        System.out.println(gid);
+        if(gid!=null) {
+            map.put("clist", commentService.showContent(gid));
+        }
         return "comment";
     }
 

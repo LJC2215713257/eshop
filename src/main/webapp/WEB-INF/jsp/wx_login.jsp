@@ -28,9 +28,7 @@
 <script>
 $(document).ready(function(){
    $(".formarea li:last input[type='button']").click(function(){
-        $.post("reSendWx",function (data) {
-
-        });
+        location.href="reSendWx";
    });
 });
 </script>

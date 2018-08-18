@@ -17,7 +17,7 @@
   </select>
 
   <select id="findOnLineAdv" resultMap="BaseResultMap">
-    select * from advertisement where adv_offline=1 order by adv_cratetime desc
+    select * from advertisement where adv_offline=1 order by adv_id desc
   </select>
 
   <sql id="Base_Column_List">

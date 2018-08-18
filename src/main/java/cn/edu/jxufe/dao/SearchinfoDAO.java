@@ -10,5 +10,5 @@ import java.util.List;
  */
 @Repository
 public interface SearchinfoDAO extends MyBatisBaseDao<Searchinfo, Searchinfo> {
-    List<Searchinfo> findkey();
+    List<Searchinfo> findkey(Integer mid);
 }

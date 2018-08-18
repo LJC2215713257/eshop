@@ -35,7 +35,7 @@
   </select>
   <insert id="insertByParams" parameterType="cn.edu.jxufe.entity.WxMemberinfo">
     INSERT INTO wxmemberinfo
-    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="openid != null">
         openid,
       </if>
@@ -64,7 +64,7 @@
         unionid,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
+    <trim prefix=" values (" suffix=")" suffixOverrides=",">
       <if test="openid != null">
         #{openid,jdbcType=VARCHAR},
       </if>

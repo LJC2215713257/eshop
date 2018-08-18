@@ -66,5 +66,15 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         return goodsDAO.insertSelective(g);
     }
 
+    @Override
+    public int commentPlus(int gid) {
+        return goodsDAO.commentPlus(gid);
+    }
+
+    @Override
+    public List<Goodsinfo> findByAuthor(int mid) {
+        return goodsDAO.findByAuthor(mid);
+    }
+
 
 }

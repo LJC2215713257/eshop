@@ -20,7 +20,7 @@
     where cat_id = #{catId,jdbcType=INTEGER}
   </select>
   <select id="findAll" resultMap="BaseResultMap">
-    SELECT * FROM goods_category
+    SELECT * FROM goods_category order by sort
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from goods_category

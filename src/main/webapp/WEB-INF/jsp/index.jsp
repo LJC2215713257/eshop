@@ -75,7 +75,7 @@
       <c:forEach items="${advs}" var="adv">
     <div class="swiper-slide">
       <a href="${adv.advLinkUrl}">
-        <img src="upload/${adv.advPicUrl}"/>
+        <img src="${adv.advPicUrl}"/>
       </a>
     </div>
       </c:forEach>

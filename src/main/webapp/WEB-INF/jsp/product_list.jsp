@@ -78,97 +78,32 @@ $(document).ready(function(){
 <!--productList-->
 <section class="productList">
   <ul>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods001.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">水晶骷髅头 工艺品</a>
-     </h2>
-     <p>
-      <del>5.90</del>
-     </p>
-     <p>
-      <strong class="price">3.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods002.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">时尚烟灰缸 玻璃制品</a>
-     </h2>
-     <p>
-      <del>12.90</del>
-     </p>
-     <p>
-      <strong class="price">8.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods003.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">花杯 带底座</a>
-     </h2>
-     <p>
-      <del>9.90</del>
-     </p>
-     <p>
-      <strong class="price">6.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods005.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">新婚天鹅 玻璃工艺品</a>
-     </h2>
-     <p>
-      <del>9.90</del>
-     </p>
-     <p>
-      <strong class="price">6.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
-   <li>
-    <a href="product.jsp" class="goodsPic">
-     <img src="../../upload/goods004.jpg"/>
-    </a>
-    <div class="goodsInfor">
-     <h2>
-      <a href="product.jsp">招财貔貅</a>
-     </h2>
-     <p>
-      <del>9.90</del>
-     </p>
-     <p>
-      <strong class="price">6.90</strong>
-     </p>
-     <a class="addToCart">&#126;</a>
-    </div>
-   </li>
+
+    <c:forEach items="${gls}" var="g">
+        <li>
+            <a href="goods/info${g.goodsId}" class="goodsPic">
+             <img src="${g.goodsImage}"/>
+            </a>
+            <div class="goodsInfor">
+             <h2>
+              <a href="goods/info${g.goodsId}">${g.goodsName}</a>
+             </h2>
+             <p>
+              <del>${g.goodsPrice}</del>
+             </p>
+             <p>
+              <strong class="price">${g.goodsSellPrice}</strong>
+             </p>
+             <a class="addToCart">&#126;</a>
+            </div>
+        </li>
+    </c:forEach>
+
   </ul>
-  <a class="more_btn">加载更多</a>
 </section>
 <!--floatCart-->
 <div class="hoverCart">
- <a href="cart.jsp">0</a>
+ <a href="cart">0</a>
 </div>
 </body>
 </html>

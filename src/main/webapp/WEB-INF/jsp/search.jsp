@@ -25,6 +25,8 @@
 <meta name="viewport" content="initial-scale=1, width=device-width, maximum-scale=1, user-scalable=no">
 <link rel="stylesheet" type="text/css" href="../../css/style.css" />
 <script src="../../js/jquery.js"></script>
+    <style>
+    </style>
 <script>
 $(document).ready(function(){
   $(".searchHistory dd:last a").click(function(){
@@ -54,18 +56,27 @@ $(document).ready(function(){
 });
 //点击按钮提交
 $(function(){
+    $(".searchHistory").hide();
+    $(".tab_proList").show();
     $("#sub").click(function(){
         $("#f").submit(); //普通提交
 
     })
-})
+
+    $("input[name=gname]").focus(function () {
+        $(".searchHistory").show();
+        $(".tab_proList").hide();
+    });
+});
+
+
 </script>
 
 </head>
 <body>
 <!--header-->
 <header>
- <a href="javascript:history.go(-1);" class="iconfont backIcon">&#60;</a>
+ <a href="index" class="iconfont backIcon">&#60;</a>
  <h1>搜索</h1>
 </header>
 <form id="f" action="goods/infobygoodsname" method="post">

@@ -211,7 +211,7 @@ function turnCart() {
   </li>
   <li class="more_link" onClick="location.href='comment'">
    <span>评论</span>
-   <span  onClick="location.href='comment'">共计<b>${goods.commentNum}</b>人点评</span>
+   <span  onClick="location.href='comment'">共计<b>${goods.commentNum}</b>条点评</span>
   </li>
   <li>
    <span>成交</span>

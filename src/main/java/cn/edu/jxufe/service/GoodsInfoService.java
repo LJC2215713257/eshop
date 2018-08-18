@@ -15,4 +15,6 @@ public interface GoodsInfoService {
     List<Goodsinfo> findByCateAndPage(int cateid,int page,int count,String sort,String orderBy);
     List<Goodsinfo> findGoodsByGname(String str);
     public int uploadGoods(String goodsName,String goodsSubtitle,String goodsImage,Integer memberId,Date createTime);
+    int commentPlus(int gid);
+    List<Goodsinfo> findByAuthor(int mid);
 }

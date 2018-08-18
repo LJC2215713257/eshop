@@ -35,7 +35,7 @@
  <a href="user/user_set" class="iconfont setIcon">&#42;</a>
 </header>
 <div class="userInfor">
- <a class="userIcon"><img src="../../images/icon/${pic}"/></a>
+ <a class="userIcon"><img src="${pic}"/></a>
  <h2>${name}</h2>
 </div>
 <ul class="userList">
@@ -45,7 +45,7 @@
 </ul>
 <div class="user_designs">
  <a href="works">发布作品</a>
- <a href="product_list">我的作品</a>
+ <a href="goods/mywork">我的作品</a>
 </div>
 <!--fixedNav:footer-->
 <div style="height:1.2rem;"></div>

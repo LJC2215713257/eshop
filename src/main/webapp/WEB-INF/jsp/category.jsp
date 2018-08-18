@@ -52,7 +52,7 @@ $(document).ready(function(){
           for(var i=0;i<data.length;i++){
               str.push("<li>\n" +
                   "      <a href=\"goods/info"+data[i].goodsId+"\" class=\"goodsPic\">\n" +
-                  "       <img src=\"../../upload/"+data[i].goodsImage+"\"/>\n" +
+                  "       <img src=\""+data[i].goodsImage+"\"/>\n" +
                   "      </a>\n" +
                   "      <div class=\"goodsInfor\">\n" +
                   "       <h2>\n" +
@@ -84,7 +84,7 @@ $(document).ready(function(){
           for(var i=0;i<data.length;i++){
               str.push("<li>\n" +
                   "      <a href=\"goods/info"+data[i].goodsId+"\" class=\"goodsPic\">\n" +
-                  "       <img src=\"../../upload/"+data[i].goodsImage+"\"/>\n" +
+                  "       <img src=\""+data[i].goodsImage+"\"/>\n" +
                   "      </a>\n" +
                   "      <div class=\"goodsInfor\">\n" +
                   "       <h2>\n" +
@@ -108,6 +108,12 @@ $(document).ready(function(){
   });
    //飞入动画，具体根据实际情况调整
    $(".addToCart").click(function(){
+       $.post("order/addGoods",
+           {goodsId:$(this).attr("name")}
+           ,function (data) {
+               console.log(data);
+           }
+       );
 	        $(".hoverCart a").html(parseInt($(".hoverCart a").html())+1);/*测试+1*/
             var shopOffset = $(".hoverCart").offset();
             var cloneDiv = $(this).parent().siblings(".goodsPic").clone();
@@ -178,7 +184,7 @@ $(document).ready(function(){
    <c:forEach items="${goods}" var="g">
      <li>
       <a href="goods/info${g.goodsId}" class="goodsPic">
-       <img src="../../upload/${g.goodsImage}"/>
+       <img src="${g.goodsImage}"/>
       </a>
       <div class="goodsInfor">
        <h2>

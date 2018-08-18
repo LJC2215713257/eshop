@@ -36,17 +36,16 @@ public class WeiXinController {
         JSONObject obj = JSON.parseObject(res);
         String res1 = HttpUtils.doGet("https://api.weixin.qq.com/sns/userinfo?access_token="+
                 obj.getString("access_token")+"&openid="+obj.getString("openid")+"&lang=zh_CN");
-
+        System.out.println(res1);
         WxMemberinfo wx = JSON.parseObject(res1,WxMemberinfo.class);
         session.setAttribute("user",wxmemberinfoService.AuthorizedLogin(wx));
         return "forward:user";
     }
 
     @RequestMapping(value = "reSendWx")
-    @ResponseBody
     public String reSendWx(){
-        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
-                +appID+"&redirect_uri=http://t7y8np.natappfree.cc/weixin&" +
+        return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="
+                +appID+"&redirect_uri=http://qkg23t.natappfree.cc/weixin&" +
                 "response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     }
 

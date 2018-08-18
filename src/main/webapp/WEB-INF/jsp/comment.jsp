@@ -50,9 +50,9 @@
   <c:forEach items="${clist}" var="c">
   <li>
    <div class="user_infor">
-    <span class="user_pic"><img src="../../images/icon/DefaultAvatar.jpg"/></span>
+    <span class="user_pic"><img src="${c.scommMemberavatar}"/></span>
     <span class="rt_infor">
-     <em>LJC</em>
+     <em>${c.scommMembername}</em>
      <time>${c.scommTime}</time>
     </span>
    </div>

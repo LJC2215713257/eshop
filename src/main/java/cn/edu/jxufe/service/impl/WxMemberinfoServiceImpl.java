@@ -20,6 +20,7 @@ public class WxMemberinfoServiceImpl implements WxMemberinfoService {
 
     @Override
     public Memberinfo AuthorizedLogin(WxMemberinfo wxMemberinfo) {
+        System.out.println(wxMemberinfo.toString());
         Memberinfo usertemp = new Memberinfo();
         usertemp.setCreateTime(new Date());
         usertemp.setMemberName(wxMemberinfo.getNickname());
@@ -27,19 +28,18 @@ public class WxMemberinfoServiceImpl implements WxMemberinfoService {
         usertemp.setMemberWw(wxMemberinfo.getOpenid());
         usertemp.setMemberPic(wxMemberinfo.getHeadimgurl());
         usertemp.setMemberLoginTime(usertemp.getCreateTime());
+        usertemp.setMemberMobile("12345678912");
         List<WxMemberinfo> ws = wxMemberinfodao.selectByParams(wxMemberinfo);
         if(ws.isEmpty()) {
             wxMemberinfodao.insertByParams(wxMemberinfo);
-        }else {
-            Memberinfo temp = new Memberinfo();
-            temp.setMemberWw(wxMemberinfo.getOpenid());
-            List<Memberinfo> ms = memberinfoDAO.findByParams(usertemp);
-            if (!ms.isEmpty()) {
-                return ms.get(0);
-            }
-            memberinfoDAO.insertSelective(usertemp);
-            return memberinfoDAO.findByParams(usertemp).get(0);
         }
-        return null;
+        Memberinfo temp = new Memberinfo();
+        temp.setMemberWw(wxMemberinfo.getOpenid());
+        List<Memberinfo> ms = memberinfoDAO.findByParams(temp);
+        if (!ms.isEmpty()) {
+            return ms.get(0);
+        }
+        memberinfoDAO.insertSelective(usertemp);
+        return memberinfoDAO.findByParams(temp).get(0);
     }
 }

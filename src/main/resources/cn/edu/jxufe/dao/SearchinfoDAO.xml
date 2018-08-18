@@ -45,6 +45,7 @@
     </trim>
   </insert>
   <select id="findkey" parameterType="cn.edu.jxufe.entity.Searchinfo" resultMap="BaseResultMap">
-    SELECT DISTINCT search_key FROM searchinfo WHERE search_key is not null AND search_key!=''
+    SELECT DISTINCT search_key FROM (select * from searchinfo WHERE search_key is not null AND search_key!=''
+     order by searchTime desc) t where t.member_id=#{mid} limit 0,10
   </select>
 </mapper>

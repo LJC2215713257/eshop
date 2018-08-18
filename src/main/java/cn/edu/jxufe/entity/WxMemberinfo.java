@@ -83,4 +83,19 @@ public class WxMemberinfo {
     public void setUnionid(String unionid) {
         this.unionid = unionid;
     }
+
+    @Override
+    public String toString() {
+        return "WxMemberinfo{" +
+                "openid='" + openid + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", sex=" + sex +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                ", headimgurl='" + headimgurl + '\'' +
+                ", privilege='" + privilege + '\'' +
+                ", unionid='" + unionid + '\'' +
+                '}';
+    }
 }

@@ -2,6 +2,7 @@ package cn.edu.jxufe.controller;
 
 import cn.edu.jxufe.entity.GoodsComment;
 import cn.edu.jxufe.entity.Goodsinfo;
+import cn.edu.jxufe.entity.Memberinfo;
 import cn.edu.jxufe.entity.Searchinfo;
 import cn.edu.jxufe.service.CommentService;
 import cn.edu.jxufe.service.GoodsInfoService;
@@ -49,8 +50,10 @@ public class GoodsController {
 
     //search表查询
     @RequestMapping(value = "infobygoodsname")
-    public Object getGoodsInfoByGname(String gname,ModelMap map){
+    public Object getGoodsInfoByGname(String gname,ModelMap map,HttpSession session){
         System.out.println("输入的商品名称是"+gname);
+        Memberinfo user = (Memberinfo) session.getAttribute("user");
+
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         java.util.Date time=null;
         try {
@@ -58,9 +61,12 @@ public class GoodsController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        searchService.insertJiLu(gname,time);//插入搜索记录
-        List<Searchinfo> slist=searchService.showKey(); //显示历史记录
-        map.put("slist",slist);
+
+        if(user!=null) {
+            searchService.insertJiLu(gname,time,user.getMemberId());//插入搜索记录
+            List<Searchinfo> slist = searchService.showKey(user.getMemberId()); //显示历史记录
+            map.put("slist", slist);
+        }
         List<Goodsinfo> glist=goodsInfoService.findGoodsByGname(gname);
         if(glist.isEmpty()){
             return "404";
@@ -70,20 +76,32 @@ public class GoodsController {
         }
     }
 
+
+
     //发布评论
     @RequestMapping(value = "uploadcom")
     public Object saveComment(String com, HttpSession session, ModelMap map){
         System.out.println("输入的评论内容是"+com);
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");//设置日期格式
         // System.out.println(df.format(new Date()));// new Date()为获取当前系统时间;
-
-        Integer goodsid= (Integer) session.getAttribute("gid");
-        if(goodsid!=null) {
-            commentService.insertComment(goodsid, com, df.format(new Date()));
-            List<GoodsComment> clist = commentService.showContent(goodsid);
-            map.put("clist", clist);
+        Memberinfo user = (Memberinfo) session.getAttribute("user");
+        if(user!=null) {
+            Integer goodsid = (Integer) session.getAttribute("gid");
+            if (goodsid != null) {
+                commentService.insertComment(goodsid, com,user);
+                goodsInfoService.commentPlus(goodsid);
+                List<GoodsComment> clist = commentService.showContent(goodsid);
+                map.put("clist", clist);
+            }
         }
         return "comment";
     }
 
+    @RequestMapping(value = "mywork")
+    public String myWorks(HttpSession session,ModelMap map){
+        Memberinfo user = (Memberinfo) session.getAttribute("user");
+        if(user!=null){
+            map.put("gls",goodsInfoService.findByAuthor(user.getMemberId()));
+        }
+        return "product_list";
+    }
 }
