@@ -103,21 +103,39 @@
 
 $(document).ready(function(){
   //效果测试，程序对接可将其删除
-  $(".add_btn").click(function(){
-      $.ajax({
-          url: "order/addGoods",
-          data:{goodsId:$(this).attr("name")},
-          method:"post",
-          dataType:"json",
-          success: function (){
-              $(".cart_icon em").html(parseInt($(".cart_icon em").html())+1);
-              $("a[name=amout]").html("合计：￥"+data.entity.orderAmount);
-          }
-      });
-  });
-  
+   $(".add_btn").click(function(){
+       $.ajax({
+           url: "order/addGoods",
+           data:{goodsId:$(this).attr("name")},
+           method:"post",
+           dataType:"json",
+           success: function (data){
+               $(".cart_icon em").html(parseInt($(".cart_icon em").html())+1);
+               var price =  parseFloat($(this).siblings("strong").html());
+               $("a[name=amount]").html("合计：￥"+(parseFloat($("a[name=amount]").html()+price)));
+               console.log($("a[name=amount]"));
+
+               // $("a[name=amout]").html("合计：￥"+data.entity.orderAmount);
+           }
+       });
+
+
+   });
+
 
 });
+
+function turnCart() {
+    var btmNav =  $(".btmNav");
+    var cart = $(".cart_list");
+    if($(cart).css("display")=="block"){
+        $(btmNav).css("height","50");
+        $(cart).css("display","none");
+    }else{
+        shopCart();
+    }
+}
+
 function shopCart() {
     $.ajax({
         url: "cart/list",
@@ -142,10 +160,10 @@ function flushCart(data) {
         $(cart).html(ulstr);
         console.log(btmNav);
         $(cart).css({
-        "display":"block",
-        "height":"220"
+            "display":"block",
+            "height":"220"
         })
-        $("a[name=amout]").html("合计：￥"+data.entity.orderAmount);
+        $("a[name=amount]").html("合计：￥"+data.entity.orderAmount);
         $(btmNav).css("height","270");
     }else{
         console.log(data);
@@ -157,25 +175,6 @@ function flushCart(data) {
         });
         $(cart).html("<h1>空空如也</h1>")
         $(btmNav).css("height","150");
-    }
-    $(".addToCart").click(function() {
-        $.post("order/addGoods",
-            {goodsId: $(this).attr("name")}
-            , function (data) {
-                console.log(data);
-            }
-        );
-    });
-}
-
-function turnCart() {
-    var btmNav =  $(".btmNav");
-    var cart = $(".cart_list");
-    if($(cart).css("display")=="block"){
-        $(btmNav).css("height","50");
-        $(cart).css("display","none");
-    }else{
-        shopCart();
     }
 }
 </script>
@@ -207,7 +206,7 @@ function turnCart() {
   </li>
   <li>
    <span>设计者</span>
-   <span>HZIT</span>
+   <span>${author}</span>
   </li>
   <li class="more_link" onClick="location.href='comment'">
    <span>评论</span>
@@ -236,7 +235,7 @@ function turnCart() {
    <c:if test="${orderNum==null}">
      0
    </c:if></em></a></li>
-  <li><a name="amout">合计：￥0.00</a></li>
+  <li><a name="amount">合计：￥0.00</a></li>
   <li><a href="cart">立即下单</a></li>
  </ul>
 </aside>

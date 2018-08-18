@@ -16,4 +16,5 @@ public interface MemberinfoDAO extends MyBatisBaseDao<Memberinfo, Integer> {
     public List<Memberinfo> findUser(String tel,String pwd);
     //通过名字查询id
     public int findIdByName(String mname);
+    public String findById(Integer mid);
 }

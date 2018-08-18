@@ -51,7 +51,6 @@ $(document).ready(function(){
                 top: shopOffset.top,
 				opacity:1
             },"slow");
-
 	   });
         $(".more_btn").click(function () {
             $.post("col/list",{page:2},function (data) {
@@ -61,7 +60,7 @@ $(document).ready(function(){
                 for(i=0;i<data.length;i++){
                     str.push("   <li>\n" +
                         "    <a href=\"goods/info"+data[i].goodsId+"\" class=\"goodsPic\">\n" +
-                        "     <img src=\"../../upload/"+data[i].goodsImage+"\"/>\n" +
+                        "     <img src=\""+data[i].goodsImage+"\"/>\n" +
                         "    </a>\n" +
                         "    <div class=\"goodsInfor\">\n" +
                         "     <h2>\n" +
@@ -73,7 +72,7 @@ $(document).ready(function(){
                         "     <p>\n" +
                         "      <strong class=\"price\">"+data[i].goodsSellPrice+"</strong>\n" +
                         "     </p>\n" +
-                        "     <a class=\"addToCart\">&#126;</a>\n" +
+                        "     <a class=\"addToCart\" name=\""+data[i].goodsId+"\">&#126;</a>\n" +
                         "    </div>\n" +
                         "   </li>");
                 }
@@ -94,7 +93,7 @@ $(document).ready(function(){
    <c:forEach items="${goodsls}" var="goods">
    <li>
     <a href="goods/info${goods.goodsId}" class="goodsPic">
-     <img src="../../upload/${goods.goodsImage}"/>
+     <img src="${goods.goodsImage}"/>
     </a>
     <div class="goodsInfor">
      <h2>
@@ -106,7 +105,7 @@ $(document).ready(function(){
      <p>
       <strong class="price">${goods.goodsSellPrice}</strong>
      </p>
-     <a class="addToCart">&#126;</a>
+     <a class="addToCart" name="${goods.goodsId}">&#126;</a>
     </div>
    </li>
    </c:forEach>
@@ -184,7 +183,14 @@ $(document).ready(function(){
 </section>
 <!--floatCart-->
 <div class="hoverCart">
- <a href="cart.jsp">0</a>
+ <a href="cart">
+  <c:if test="${orderNum!=null}">
+   ${orderNum}
+  </c:if>
+  <c:if test="${orderNum==null}">
+   0
+  </c:if>
+ </a>
 </div>
 </body>
 </html>

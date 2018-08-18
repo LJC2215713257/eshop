@@ -69,4 +69,12 @@ public class MemberInfoServiceImpl implements MemberInfoService {
     public Integer getMId(String mname) {
         return dao.findIdByName(mname);
     }
+
+    @Override
+    public String findNameByMid(Integer mid) {
+        if(mid!=null) {
+            return dao.findById(mid);
+        }
+        return null;
+    }
 }

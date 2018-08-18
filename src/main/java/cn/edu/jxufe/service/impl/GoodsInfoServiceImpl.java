@@ -76,5 +76,13 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         return goodsDAO.findByAuthor(mid);
     }
 
+    @Override
+    public List<Goodsinfo> findCollect(Integer mid) {
+        if (mid != null) {
+            return goodsDAO.findCollect(mid);
+        }
+        return null;
+    }
+
 
 }

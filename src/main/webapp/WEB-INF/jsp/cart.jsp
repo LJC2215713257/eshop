@@ -109,7 +109,6 @@ $(document).ready(function(){
       for(i=0;i<cart.length;i++){
           if(cart[i].goodsId==goodsid){
               cart[i].num=0;
-              console.log();
               break;
           }
       }
@@ -119,10 +118,19 @@ $(document).ready(function(){
           obj.num=0;
           cart.push(obj);
       }
-      $("#amount").html(parseFloat($("#amount").html())
-          +parseFloat($(this).siblings("[type=hidden]").val())*parseInt($(this).siblings(".number").val()));
+      $.post("order/update", {cart:JSON.stringify(cart)}, function (data) {
+          console.log(data);
+      });
+      var amount = parseFloat($("#amount").html())
+          -parseFloat($(this).parent().find("input[type=hidden]").val())*parseInt($(this).parent().find(".number").val());
+      console.log(amount);
+      if(amount<=0) {
+          $("#amount").html(0);
+      }else{
+          $("#amount").html(amount);
+      }
       $(this).parent().remove();
-      $("#catenum").html(parseInt($("catenum").html())-1);
+      $("#catenum").html(parseInt($("#catenum").html())-parseInt($(this).parent().find(".number").val()));
       nullTips();
   });
   //isNull->tips
@@ -164,7 +172,7 @@ $(document).ready(function(){
  <c:forEach items="${cart.orderGoodsList}" var="d">
  <dd>
   <input type="checkbox" name="row"/>
-  <a href="product${d.goodsId}" class="goodsPic"><img src="../../upload/${d.imageUrl}"/></a>
+  <a href="product${d.goodsId}" class="goodsPic"><img src="${d.imageUrl}"/></a>
   <div class="goodsInfor">
    <h2>
     <a href="product${d.goodsId}">${d.goodsName}</a>

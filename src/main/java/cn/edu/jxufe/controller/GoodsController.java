@@ -6,6 +6,7 @@ import cn.edu.jxufe.entity.Memberinfo;
 import cn.edu.jxufe.entity.Searchinfo;
 import cn.edu.jxufe.service.CommentService;
 import cn.edu.jxufe.service.GoodsInfoService;
+import cn.edu.jxufe.service.MemberInfoService;
 import cn.edu.jxufe.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,8 @@ public class GoodsController {
     private CommentService commentService;
     @Autowired
     private SearchService searchService;
+    @Autowired
+    private MemberInfoService memberInfoService;
 
     @RequestMapping(value = "info{gid}")
     public String getGoodsInfo(@PathVariable("gid") int gid, ModelMap map,HttpSession session){
@@ -37,6 +40,7 @@ public class GoodsController {
         if(goods==null&&goods.getGoodsState()==0){
             return "404";
         }
+        map.put("author",memberInfoService.findNameByMid(goods.getMemberId()));
         map.put("goods",goods);
         session.setAttribute("gid",gid);
         return "product";

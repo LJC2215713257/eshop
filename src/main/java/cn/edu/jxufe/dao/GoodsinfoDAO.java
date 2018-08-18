@@ -18,4 +18,5 @@ public interface GoodsinfoDAO extends MyBatisBaseDao<Goodsinfo, Integer> {
     public List<Goodsinfo>    findAllGoodsByProperty(@Param("goods")Map map);
     int commentPlus(int gid);
     List<Goodsinfo> findByAuthor(int mid);
+    List<Goodsinfo> findCollect(int mid);
 }

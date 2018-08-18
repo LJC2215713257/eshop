@@ -12,4 +12,5 @@ public interface MemberInfoService {
     boolean isNameUserful(String name);
     int updataBySelective(Memberinfo memberinfo);
     Integer getMId(String mname);
+    String findNameByMid(Integer mid);
 }

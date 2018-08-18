@@ -35,6 +35,10 @@
     select member_id from memberinfo where member_name = #{memberName}
   </select>
 
+  <select id="findById" parameterType="java.lang.Integer" resultType="java.lang.String">
+    select member_name from memberinfo where member_id=#{mid}
+  </select>
+
   <select id="findByParams" parameterType="cn.edu.jxufe.entity.Memberinfo" resultMap="BaseResultMap">
     SELECT * FROM memberinfo
     <where>

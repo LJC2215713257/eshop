@@ -51,15 +51,13 @@ $(document).ready(function(){
   //测试返回页面，程序对接删除即可
   $(".userForm input[type='button']").click(function(){
       if($("#prov").val()!=""){
-
           if($("#city").val()!=""){
-
               if($("#area").val()!=""){
                   $.post("area/commitaddr",{provincename:$("#prov").val(),cityname:$("#city").val(),
                       areaname:$("#area").val(),detailaddress:$("textarea").eq(0).val()
                   },function (data) {
                       if(data.title==1){
-                          //location.href="user/user_set";
+                          location.href="user/user_set";
                       }
 
                   });

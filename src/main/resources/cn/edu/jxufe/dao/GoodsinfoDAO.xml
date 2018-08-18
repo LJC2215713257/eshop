@@ -48,6 +48,10 @@
     SELECT * FROM goodsinfo WHERE member_id=#{mid}
   </select>
 
+  <select id="findCollect" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * from goodsinfo where goods_id in(SELECT goodis_id from goods_comment where scomm_memberid=#{mid})
+  </select>
+
   <select id="findByCategory" parameterType="java.util.Map" resultMap="BaseResultMap">
     SELECT * FROM goodsinfo WHERE gc_id=#{cateid} ORDER BY #{orderBy} #{sort}
   </select>

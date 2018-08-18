@@ -64,7 +64,7 @@ $(document).ready(function(){
                   "       <p>\n" +
                   "        <strong class=\"price\">"+data[i].goodsSellPrice+"</strong>\n" +
                   "       </p>\n" +
-                  "       <a class=\"addToCart\">&#126;</a>\n" +
+                  "       <a class=\"addToCart\" name=\""+data[i].goodsId+"\">&#126;</a>\n" +
                   "      </div>\n" +
                   "     </li>");
           }
@@ -96,7 +96,7 @@ $(document).ready(function(){
                   "       <p>\n" +
                   "        <strong class=\"price\">"+data[i].goodsSellPrice+"</strong>\n" +
                   "       </p>\n" +
-                  "       <a class=\"addToCart\">&#126;</a>\n" +
+                  "       <a class=\"addToCart\" name=\""+data[i].goodsId+"\">&#126;</a>\n" +
                   "      </div>\n" +
                   "     </li>");
           }
@@ -196,7 +196,7 @@ $(document).ready(function(){
        <p>
         <strong class="price">${g.goodsSellPrice}</strong>
        </p>
-       <a class="addToCart">&#126;</a>
+       <a class="addToCart" name="${g.goodsId}">&#126;</a>
       </div>
      </li>
    </c:forEach>

@@ -133,6 +133,12 @@ public class OrderController {
                         }else {
                             og.setGoodsNum(c.getNum());
                         }
+                        Integer num = (Integer) session.getAttribute("orderNum");
+                        if(num!=null){
+                            session.removeAttribute("orderNum");
+                            session.setAttribute("orderNum",num+((c.getNum()-og.getGoodsNum())));
+                        }
+
                         break;
                     }
                 }

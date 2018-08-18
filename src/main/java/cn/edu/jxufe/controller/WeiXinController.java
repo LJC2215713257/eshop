@@ -45,7 +45,7 @@ public class WeiXinController {
     @RequestMapping(value = "reSendWx")
     public String reSendWx(){
         return "redirect:https://open.weixin.qq.com/connect/oauth2/authorize?appid="
-                +appID+"&redirect_uri=http://qkg23t.natappfree.cc/weixin&" +
+                +appID+"&redirect_uri=http://h4fhiu.natappfree.cc/weixin&" +
                 "response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     }
 
